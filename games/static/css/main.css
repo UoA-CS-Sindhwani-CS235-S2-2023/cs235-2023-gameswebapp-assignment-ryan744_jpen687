@@ -23,3 +23,18 @@
 .description img {
         vertical-align: top;
     }
+
+.container {
+    display: flex;
+}
+#nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
