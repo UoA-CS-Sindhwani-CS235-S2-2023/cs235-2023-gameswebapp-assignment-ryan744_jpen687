@@ -17,13 +17,13 @@ class MemoryRepository(AbstractRepository):
         self.__publishers.add(publisher)
 
     def get_publishers(self):
-        return self.__publishers
+        return list(self.__publishers)
 
     def add_genre(self, genre):
         self.__genres.add(genre)
 
     def get_genres(self):
-        return self.__genres
+        return list(self.__genres)
 
     def add_game(self, game):
         insort_left(self.__games, game, key=lambda x: x.title)
