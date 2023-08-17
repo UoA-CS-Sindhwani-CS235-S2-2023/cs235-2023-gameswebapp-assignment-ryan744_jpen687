@@ -28,19 +28,16 @@
 
   <body>
     <div id="body">
-        <header id="header">
-            <h1>CS235 2023: My Game Library</h1>
-            <div class="copyright">&copy; UPI1 | UPI2 | UPI3 (Write your full names or UPIs)</div>
-        </header>
-        <div class="container">
-            <div id="nav">
-                {% include 'navigation.html' %}
-            </div>
-            <div class="content">
-                {% block content %}{% endblock %}
-            </div>
+      <div id="nav">
+          {% include 'navigation.html' %}
+      </div>
+      <div class="container">
+        {% include 'header.html' %}
+        <div class="content">
+            {% block content %}{% endblock %}
         </div>
-        {% include 'footer.html' %}
+      </div>
+      {% include 'footer.html' %}
     </div>
   </body>
 </html>

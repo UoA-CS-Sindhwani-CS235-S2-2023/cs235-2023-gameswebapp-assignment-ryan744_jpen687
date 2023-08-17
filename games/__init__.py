@@ -17,7 +17,7 @@ def create_app():
     populate(Path('games/adapters/data/games.csv'), repo.repo_instance)
 
     # TODO: Create this route via blueprint
-    @app.route('/gameDescription')
+    @app.route('/game-description')
     def gameDescription():
         # Use Jinja to customize a predefined html page rendering the layout for showing a single game.
         CALL_OF_DUTY_GAME_ID = 7940
