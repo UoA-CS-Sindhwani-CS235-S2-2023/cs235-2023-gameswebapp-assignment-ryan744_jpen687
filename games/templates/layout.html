@@ -28,18 +28,19 @@
 
   <body>
     <div id="body">
+      <div id="nav">
+          {% include 'navigation.html' %}
+      </div>
+      <div class="container">
         <header id="header">
             <h1>CS235 2023: My Game Library</h1>
         </header>
-        <div class="container">
-            <div id="nav">
-                {% include 'navigation.html' %}
-            </div>
-            <div class="content">
-                {% block content %}{% endblock %}
-            </div>
+        
+        <div class="content">
+            {% block content %}{% endblock %}
         </div>
-        {% include 'footer.html' %}
+      </div>
+      {% include 'footer.html' %}
     </div>
   </body>
 </html>

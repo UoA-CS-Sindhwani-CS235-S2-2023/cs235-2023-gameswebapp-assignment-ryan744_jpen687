@@ -1,3 +1,7 @@
+#body {
+  display: flex;
+}
+
 #header {
   padding: 20px;
   background: 	#E6E6FA;
@@ -26,10 +30,14 @@
 
 .container {
     display: flex;
+    flex-direction: column;
 }
+
 #nav {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 400px;
 }
 
 .content {
@@ -51,4 +59,10 @@ footer {
 
 footer > .copyright {
   margin-left: 5px;
+}
+
+.main-logo {
+  height: 300px;
+  width: 300px;
+  background-color: blue;
 }
