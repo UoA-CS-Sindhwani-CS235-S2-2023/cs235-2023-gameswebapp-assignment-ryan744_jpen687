@@ -38,3 +38,17 @@
     flex-direction: column;
     align-items: center;
 }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #E6E6FA;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer > .copyright {
+  margin-left: 5px;
+}
