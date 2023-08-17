@@ -4,7 +4,7 @@
 
 #header {
   padding: 20px;
-  background: 	#E6E6FA;
+  background: #E6E6FA;
   border-bottom: 1px solid #e0e4e8;
   font-size: 25px;
   font-weight: bold;
@@ -54,6 +54,13 @@
     flex-direction: column;
     height: 100%;
     width: 400px;
+    align-items: center;
+    text-align: center;
+}
+
+.no-list-style {
+  list-style: none;
+  padding-left: 0px;
 }
 
 .content {

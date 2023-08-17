@@ -23,4 +23,6 @@ def create_app():
         from .home import home
         app.register_blueprint(home.home_blueprint)
 
+        from .utilities import utilities
+        app.register_blueprint(utilities.utilities_blueprint)
     return app

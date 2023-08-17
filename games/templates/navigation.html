@@ -2,10 +2,16 @@
     <div id="nav-footer">
       <div class="main-logo">LOGO</div>
     </div>
-    <ul class="nav list">
+    <ul class="nav list no-list-style">
         <li><a href="/">Home</a></li>
-        <li>Games Library </li>
-        <li>Dropdown - Genre </li>
-        <li>Dropdown - Publisher</li>
+        <li><a href="/">Games Library</a></li>
+        <li>
+          <h3>Browse by Genre</h3>
+          <ul class="no-list-style">
+            {% for genre in genres %}
+              <li><a href="/">{{ genre.genre_name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
     </ul>
 </nav>
