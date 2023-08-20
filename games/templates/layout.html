@@ -28,13 +28,15 @@
 
   <body>
     <div id="body">
-      <div id="nav">
-          {% include 'navigation.html' %}
-      </div>
-      <div class="container">
-        {% include 'header.html' %}
-        <div class="content">
-            {% block content %}{% endblock %}
+      <div class="box">
+        <div id="nav">
+            {% include 'navigation.html' %}
+        </div>
+        <div class="container">
+          {% include 'header.html' %}
+          <div class="content">
+              {% block content %}{% endblock %}
+          </div>
         </div>
       </div>
       {% include 'footer.html' %}
