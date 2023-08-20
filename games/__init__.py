@@ -15,10 +15,9 @@ def create_app():
     populate(Path('games/adapters/data/games.csv'), repo.repo_instance)
 
     # TODO: Create this route via blueprint
-    @app.route('/game-description')
-    def gameDescription():
-        CALL_OF_DUTY_GAME_ID = 7940
-        return render_template('gameDescription.html', game=repo.repo_instance.get_game(CALL_OF_DUTY_GAME_ID))
+
+
+
 
     with app.app_context():
         from .home import home
@@ -29,4 +28,9 @@ def create_app():
 
         from .utilities import utilities
         app.register_blueprint(utilities.utilities_blueprint)
+
+        from .gameDescription import gameDescription
+        app.register_blueprint(gameDescription.gameDescription_blueprint)
+
     return app
+
