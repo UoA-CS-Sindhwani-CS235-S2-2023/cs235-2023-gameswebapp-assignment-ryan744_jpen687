@@ -4,7 +4,9 @@
     </div>
     <ul class="nav list no-list-style">
         <li><a href="/">Home</a></li>
-        <li><a href="/">Games Library</a></li>
+        <li><a class="btn-nav" href="{{ url_for('games_bp.browse_all_games') }}">
+            Browse all Games
+        </a></li>
         <li>
           <h3>Browse by Genre</h3>
           <ul class="no-list-style">

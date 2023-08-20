@@ -7,6 +7,7 @@ from flask import Flask, render_template
 import games.adapters.repository as repo
 from games.adapters.memory_repository import MemoryRepository, populate
 
+
 def create_app():
     app = Flask(__name__)
 
@@ -22,6 +23,9 @@ def create_app():
     with app.app_context():
         from .home import home
         app.register_blueprint(home.home_blueprint)
+
+        from .gamesLib import gamesLib
+        app.register_blueprint(gamesLib.gamesLib_blueprint)
 
         from .utilities import utilities
         app.register_blueprint(utilities.utilities_blueprint)
