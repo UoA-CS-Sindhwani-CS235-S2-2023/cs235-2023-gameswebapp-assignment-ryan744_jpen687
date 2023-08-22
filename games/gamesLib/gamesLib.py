@@ -21,33 +21,33 @@ def browse_all_games():
         # Convert cursor from string to int.
         cursor = int(cursor)
 
-    # Retrieve games
-    # games_ids = services.get_batch_games(repo.repo_instance)
-
-    # Retrieve the batch of games to display on the Web page.
     batch_of_games = services.get_batch_games(repo.repo_instance)
+    length_of_entire_library = len(batch_of_games)
 
     first_game_url = None
     last_game_url = None
     next_game_url = None
     prev_game_url = None
 
-    # if cursor > 0:
-    #     # There are preceding articles, so generate URLs for the 'previous' and 'first' navigation buttons.
-    #     prev_game_url = url_for('games_bp.browse_all_games', cursor=cursor - games_per_page)
-    #     first_game_url = url_for('games_bp.browse_all_games')
-    #
-    # if cursor + games_per_page < len(games_ids):
-    #     # There are further articles, so generate URLs for the 'next' and 'last' navigation buttons.
-    #     next_game_url = url_for('games_bp.browse_all_games', cursor=cursor + games_per_page)
-    #
-    #     last_cursor = games_per_page * int(len(games_ids) / games_per_page)
-    #     if len(games_ids) % games_per_page == 0:
-    #         last_cursor -= games_per_page
-    #     last_game_url = url_for('games_bp.browse_all_games', cursor=last_cursor)
+    if cursor > 0:
+        # There are preceding games in the library, generate URL
+        first_game_url = url_for('games_bp.browse_all_games', cursor=10)
+        prev_game_url = url_for('games_bp.browse_all_games', cursor=cursor - games_per_page)
+
+    if cursor + games_per_page < length_of_entire_library:
+        next_game_url = url_for('games_bp.browse_all_games', cursor=cursor + games_per_page)
+
+        last_cursor = length_of_entire_library
+        if length_of_entire_library % games_per_page != 0:
+            last_cursor -= games_per_page
+        last_game_url = url_for('games_bp.browse_all_games', cursor=last_cursor)
+
+    # Retrieve the batch of games to display on the Web page.
+
+    batch_of_games = batch_of_games[cursor:cursor + games_per_page]
 
     return render_template(
-        '/games.html',
+        'library/games.html',
         title='Games',
         batch_of_games=batch_of_games,
         first_game_url=first_game_url,
