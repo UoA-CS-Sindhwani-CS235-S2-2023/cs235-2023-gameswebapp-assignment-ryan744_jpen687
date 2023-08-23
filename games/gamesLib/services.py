@@ -33,13 +33,3 @@ def get_batch_games(repo: AbstractRepository):
 
     return games_as_dict
 
-
-def get_first_article(repo: AbstractRepository):
-    game = repo.get_first_game()
-    return game_to_dict(game)
-
-
-def get_last_article(repo: AbstractRepository):
-    game = repo.get_last_game()
-    return game_to_dict(game)
-
