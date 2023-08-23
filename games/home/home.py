@@ -8,7 +8,9 @@ home_blueprint = Blueprint(
 
 @home_blueprint.route('/', methods=['GET'])
 def home():
+    active_page = 'home'
     return render_template(
         'home/home.html',
         genres=utilities.get_genres(),
+        active_page=active_page
       )

@@ -4,8 +4,9 @@
 
 <main id="main">
     <header id="article-header">
-        <h1>{{ articles_title }}</h1>
+        <h1 style="color: #45A29E;">{{ articles_title }}</h1>
     </header>
+
 
     <nav style="clear:both">
             <div style="float:left">
@@ -38,7 +39,7 @@
     {% for game in batch_of_games %}
     <article id="article">
         <a href="{{game.hyperlink}}" target="_blank">
-            <img src={{game.image_hyperlink}} alt="Game image">
+            <img class= "game-image" src={{game.image_hyperlink}} alt="Game image">
         </a>
         <h2>{{game.title}}</h2>
         <p>{{game.first_paragraph}}</p>

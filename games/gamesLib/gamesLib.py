@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import request, render_template, redirect, url_for, session
 import games.gamesLib.services as services
 import games.adapters.repository as repo
+from games.utilities import utilities
 
 gamesLib_blueprint = Blueprint(
     'games_bp', __name__)
@@ -10,6 +11,7 @@ gamesLib_blueprint = Blueprint(
 @gamesLib_blueprint.route('/browse_all_games', methods=['GET'])
 def browse_all_games():
     games_per_page = 10
+    active_page = browse_all_games
 
     # Read query parameters.
     cursor = request.args.get('cursor')
@@ -54,4 +56,6 @@ def browse_all_games():
         last_game_url=last_game_url,
         prev_game_url=prev_game_url,
         next_game_url=next_game_url,
+        genres=utilities.get_genres(),
+        active_page=active_page
     )

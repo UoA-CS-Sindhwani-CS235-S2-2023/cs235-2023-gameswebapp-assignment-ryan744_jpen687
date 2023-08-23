@@ -2,11 +2,12 @@
 <main id="main">
   <div class="description">
     <br>
-      <h2>{{ game.title }}</h2>
-      <p><i>Release Date:</i> {{ game.release_date }} </p>
-      <p><i>Price:</i> {{ game.price }}</p>
-      <p><i>About:</i> {{ game.description }} </p>
-      <p><i>Image URL: </i><img src="{{ game.image_url }}" alt="game image"> </p>
+      <h2 style="color: #45A29E" >{{ game.title }}</h2>
+      <p><img class="game-image" src="{{ game.image_url }}" alt="game image"> </p>
+      <p><i style="color: #45A29E">Release Date:</i> {{ game.release_date }} </p>
+      <p><i style="color: #45A29E">Price:</i> {{ game.price }}</p>
+      <p><i style="color: #45A29E">About:</i> {{ game.description }} </p>
+
   </div>
 </main>
 {% endblock %}
