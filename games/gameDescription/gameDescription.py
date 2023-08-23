@@ -10,4 +10,5 @@ gameDescription_blueprint = Blueprint(
 @gameDescription_blueprint.route('/game-description/<gameid>', methods=['GET'])
 def gameDescription(gameid):
     id = int(gameid)
-    return render_template('gameDescription.html', game=repo.repo_instance.get_game(id), genres=utilities.get_genres())
+    active_page = 'gameDescription'
+    return render_template('gameDescription.html', game=repo.repo_instance.get_game(id), genres=utilities.get_genres(),active_page = active_page)
