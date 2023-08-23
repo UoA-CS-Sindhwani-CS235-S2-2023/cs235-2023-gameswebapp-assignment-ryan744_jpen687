@@ -1,9 +1,21 @@
 <header id="header">
   <h1><em>CS235 2023: My Game Library</em></h1>
   <div class="search-bar">
-    <label for="search-input">Search:</label>
-    <input id="search-input" type="text" placeholder="Enter title, release date or publisher">
-    <button><a href="#">Search</a></button>
+    <div class="search-bar-input-container">
+      <label for="search-input">Search by keyword</label>
+      <input id="search-input" type="text" placeholder="Enter title, release date or publisher">
+    </div>
+    <div class="search-bar-category-dropdown">
+      <label for="category-dropdown">Category</label>
+      <select name="category" id="category-dropdown">
+        <option value="title">Title</option>
+        <option value="publisher">Publisher</option>
+        <option value="genre">Genre</option>
+      </select>
+    </div>
+    <div class="search-button">
+      <button><a href="#">Search</a></button>
+    </div>
   </div>
 
 </header>
