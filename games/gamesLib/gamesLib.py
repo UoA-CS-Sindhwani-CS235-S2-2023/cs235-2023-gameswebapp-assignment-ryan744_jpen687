@@ -7,13 +7,14 @@ from games.utilities import utilities
 gamesLib_blueprint = Blueprint(
     'games_bp', __name__)
 
-
 @gamesLib_blueprint.route('/browse_all_games', methods=['GET'])
 def browse_all_games():
     games_per_page = 10
 
     # Read query parameters.
     page = request.args.get('page')
+    search_term = request.args.get('search_term')
+    search_category = request.args.get('search_category')
 
     if page is None:
         # No page query parameter, so initialise page to start at the beginning.
@@ -22,6 +23,7 @@ def browse_all_games():
     page = int(page)
 
     batch_of_games = services.get_batch_games(repo.repo_instance)
+    batch_of_games = services.filter_games(batch_of_games, search_term, search_category)
     length_of_entire_library = len(batch_of_games)
 
     first_game_url = None
@@ -31,13 +33,13 @@ def browse_all_games():
 
     if page > 1:
         # There are preceding games in the library, generate URL
-        first_game_url = url_for('games_bp.browse_all_games', page=1)
-        prev_game_url = url_for('games_bp.browse_all_games', page=page - 1)
+        first_game_url = url_for('games_bp.browse_all_games', page=1, search_term=search_term, search_category=search_category)
+        prev_game_url = url_for('games_bp.browse_all_games', page=page - 1, search_term=search_term, search_category=search_category)
 
     if ((page * games_per_page) + games_per_page) < length_of_entire_library:
-        next_game_url = url_for('games_bp.browse_all_games', page=page + 1)
+        next_game_url = url_for('games_bp.browse_all_games', page=page + 1, search_term=search_term, search_category=search_category)
         last_page = int(length_of_entire_library / games_per_page)
-        last_game_url = url_for('games_bp.browse_all_games', page=last_page)
+        last_game_url = url_for('games_bp.browse_all_games', page=last_page, search_term=search_term, search_category=search_category)
 
     # Retrieve the batch of games to display on the Web page.
     batch_of_games = batch_of_games[(page - 1) * games_per_page: page * games_per_page]

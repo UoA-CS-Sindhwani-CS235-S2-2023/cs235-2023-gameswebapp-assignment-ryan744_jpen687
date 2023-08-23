@@ -14,11 +14,6 @@ def create_app():
     repo.repo_instance = MemoryRepository()
     populate(Path('games/adapters/data/games.csv'), repo.repo_instance)
 
-    # TODO: Create this route via blueprint
-
-
-
-
     with app.app_context():
         from .home import home
         app.register_blueprint(home.home_blueprint)
@@ -31,6 +26,9 @@ def create_app():
 
         from .gameDescription import gameDescription
         app.register_blueprint(gameDescription.gameDescription_blueprint)
+
+        from .search import search
+        app.register_blueprint(search.search_blueprint)
 
     return app
 

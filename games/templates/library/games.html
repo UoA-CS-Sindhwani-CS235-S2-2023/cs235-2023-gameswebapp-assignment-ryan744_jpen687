@@ -33,7 +33,7 @@
 
     {% for game in batch_of_games %}
     <article id="article">
-        <a href="{{game.hyperlink}}" target="_blank">
+        <a href="{{ url_for('gameDescription_bp.gameDescription', gameid=game.id) }}">
             <img class= "game-image" src={{game.image_hyperlink}} alt="Game image">
         </a>
         <h2>{{game.title}}</h2>
