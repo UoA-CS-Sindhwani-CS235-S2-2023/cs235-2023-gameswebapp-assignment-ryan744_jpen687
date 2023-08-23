@@ -3,20 +3,15 @@
 {% block content %}
 
 <main id="main">
-    <header id="article-header">
-        <h1 style="color: #45A29E;">{{ articles_title }}</h1>
-    </header>
-
-
     <nav style="clear:both">
             <div style="float:left">
-                {% if first_article_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{first_article_url}}'">First</button>
+                {% if first_game_url is not none %}
+                    <button class="btn-general" onclick="location.href='{{first_game_url}}'">First</button>
                 {% else %}
                     <button class="btn-general-disabled" disabled>First</button>
                 {% endif %}
-                {% if prev_article_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{prev_article_url}}'">Previous</button>
+                {% if prev_game_url is not none %}
+                    <button class="btn-general" onclick="location.href='{{prev_game_url}}'">Previous</button>
                 {% else %}
                     <button class="btn-general-disabled" disabled>Previous</button>
                 {% endif %}

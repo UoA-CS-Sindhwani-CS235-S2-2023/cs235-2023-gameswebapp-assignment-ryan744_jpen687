@@ -11,17 +11,15 @@ gamesLib_blueprint = Blueprint(
 @gamesLib_blueprint.route('/browse_all_games', methods=['GET'])
 def browse_all_games():
     games_per_page = 10
-    active_page = browse_all_games
 
     # Read query parameters.
-    cursor = request.args.get('cursor')
+    page = request.args.get('page')
 
-    if cursor is None:
-        # No cursor query parameter, so initialise cursor to start at the beginning.
-        cursor = 0
-    else:
-        # Convert cursor from string to int.
-        cursor = int(cursor)
+    if page is None:
+        # No page query parameter, so initialise page to start at the beginning.
+        page = 1
+
+    page = int(page)
 
     batch_of_games = services.get_batch_games(repo.repo_instance)
     length_of_entire_library = len(batch_of_games)
@@ -31,22 +29,18 @@ def browse_all_games():
     next_game_url = None
     prev_game_url = None
 
-    if cursor > 0:
+    if page > 1:
         # There are preceding games in the library, generate URL
-        first_game_url = url_for('games_bp.browse_all_games', cursor=10)
-        prev_game_url = url_for('games_bp.browse_all_games', cursor=cursor - games_per_page)
+        first_game_url = url_for('games_bp.browse_all_games', page=1)
+        prev_game_url = url_for('games_bp.browse_all_games', page=page - 1)
 
-    if cursor + games_per_page < length_of_entire_library:
-        next_game_url = url_for('games_bp.browse_all_games', cursor=cursor + games_per_page)
-
-        last_cursor = length_of_entire_library
-        if length_of_entire_library % games_per_page != 0:
-            last_cursor -= games_per_page
-        last_game_url = url_for('games_bp.browse_all_games', cursor=last_cursor)
+    if ((page * games_per_page) + games_per_page) < length_of_entire_library:
+        next_game_url = url_for('games_bp.browse_all_games', page=page + 1)
+        last_page = int(length_of_entire_library / games_per_page)
+        last_game_url = url_for('games_bp.browse_all_games', page=last_page)
 
     # Retrieve the batch of games to display on the Web page.
-
-    batch_of_games = batch_of_games[cursor:cursor + games_per_page]
+    batch_of_games = batch_of_games[(page - 1) * games_per_page: page * games_per_page]
 
     return render_template(
         'library/games.html',
@@ -57,5 +51,4 @@ def browse_all_games():
         prev_game_url=prev_game_url,
         next_game_url=next_game_url,
         genres=utilities.get_genres(),
-        active_page=active_page
     )
