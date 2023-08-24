@@ -20,6 +20,30 @@ a.nostyle:visited {
   cursor: auto;
 }
 
+button, input[type=submit] {
+  background-color: #EDF5E1;
+  color: black;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  height: 40px;
+  font-size: 24px;
+}
+
+button:hover, input[type=submit]:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+button:disabled, input[type=submit]:hover
+{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: auto;
+}
+
 /* Header Styles */
 
 #header {
@@ -76,22 +100,6 @@ a.nostyle:visited {
 .search-button {
   margin-top: 38px;
   height: 40px;
-}
-
-.search-button input[type=submit] {
-  background-color: #EDF5E1;
-  color: black;
-  border: none;
-  border-radius: 3px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  height: 40px;
-  font-size: 24px;
-}
-
-.search-button input[type=submit]:hover {
-  background-color: #0056b3; /* Darker color on hover */
 }
 
 /* Footer Styles */
@@ -175,30 +183,6 @@ footer > .copyright {
 .pagination-number {
   font-size: 30px;
   font-weight: bold;
-}
-
-.left-navigation-buttons button, .right-navigation-buttons button {
-  background-color: #EDF5E1;
-  color: black;
-  border: none;
-  border-radius: 3px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  height: 40px;
-  font-size: 24px;
-}
-
-.left-navigation-buttons button:hover, .right-navigation-buttons button:hover {
-  background-color: #0056b3; /* Darker color on hover */
-}
-
-.left-navigation-buttons button:disabled, .right-navigation-buttons button:disabled
-{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
-  cursor: auto;
 }
 
 /* Logo and Images */
