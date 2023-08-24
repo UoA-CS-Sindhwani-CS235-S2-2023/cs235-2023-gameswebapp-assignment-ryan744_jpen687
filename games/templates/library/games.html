@@ -33,14 +33,15 @@
     </nav>
 
     {% for game in batch_of_games %}
-    <article id="article">
-        <a href="{{ url_for('gameDescription_bp.gameDescription', gameid=game.id) }}">
-            <img class= "game-image" src={{game.image_hyperlink}} alt="Game image">
-        </a>
-        <h2>{{game.title}}</h2>
-        <p>{{game.first_paragraph}}</p>
-
-    </article>
+    <div class="game-front-cover">
+      <a class="nostyle" href="{{ url_for('gameDescription_bp.gameDescription', gameid=game.id) }}">
+          <div class="game-image-container">
+            <img class="game-image" src={{game.image_hyperlink}} alt="Game image">
+          </div>
+          <h2>{{game.title}}</h2>
+          <p>{{game.summary}}</p>
+      </a>
+    </div>
     {% endfor %}
     {% endif %}
 </main>

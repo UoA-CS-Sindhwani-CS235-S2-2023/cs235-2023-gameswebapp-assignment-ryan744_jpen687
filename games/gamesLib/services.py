@@ -6,13 +6,16 @@ from games.adapters.repository import AbstractRepository
 
 def game_to_dict(game: Game):
     # Convert one game to dictionary form.
+    summary = ''
+    if game.description is not None:
+        summary = game.description[:200] + (game.description[200:] and '...')
     game_dict = {
         'id': game.game_id,
         'date': game.release_date,
         'title': game.title,
         'price': game.price,
         'publisher': game.publisher,
-        'first_paragraph': game.description,
+        'summary': summary,
         'hyperlink': game.website_url,
         'image_hyperlink': game.image_url,
         'genres': game.genres,
