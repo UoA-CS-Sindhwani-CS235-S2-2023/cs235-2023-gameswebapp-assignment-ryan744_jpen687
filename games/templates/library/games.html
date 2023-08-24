@@ -3,6 +3,9 @@
 {% block content %}
 
 <main id="main">
+    {% if batch_of_games|length == 0 %}
+     <div class="no-games-box">No results found for your search 😭</div>
+    {% else %}
     <nav style="clear:both">
             <div style="float:left">
                 {% if first_game_url is not none %}
@@ -72,5 +75,6 @@
             </div>
         </nav>
     </footer>
+    {% endif %}
 </main>
 {% endblock %}
