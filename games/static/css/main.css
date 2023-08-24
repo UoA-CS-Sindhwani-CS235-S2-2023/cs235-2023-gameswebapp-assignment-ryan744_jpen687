@@ -136,6 +136,36 @@ footer > .copyright {
   font-size: 36px;
 }
 
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.left-navigation-buttons button, .right-navigation-buttons button {
+  background-color: #EDF5E1;
+  color: black;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  height: 40px;
+  font-size: 24px;
+}
+
+.left-navigation-buttons button:hover, .right-navigation-buttons button:hover {
+  background-color: #0056b3; /* Darker color on hover */
+}
+
+.left-navigation-buttons button:disabled, .right-navigation-buttons button:disabled
+{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: auto;
+}
+
 /* Logo and Images */
 
 .main-logo {
