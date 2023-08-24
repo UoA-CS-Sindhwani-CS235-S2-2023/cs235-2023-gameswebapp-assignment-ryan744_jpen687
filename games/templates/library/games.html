@@ -3,33 +3,34 @@
 {% block content %}
 
 <main id="main">
-    <nav style="clear:both">
-            <div style="float:left">
-                {% if first_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{first_game_url}}'">First</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>First</button>
-                {% endif %}
-                {% if prev_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{prev_game_url}}'">Previous</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>Previous</button>
-                {% endif %}
-            </div>
-            <div style="float:right">
-                {% if next_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{next_game_url}}'">Next</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>Next</button>
-                {% endif %}
+    {% if batch_of_games|length == 0 %}
+     <div class="no-games-box">No results found for your search 😭</div>
+    {% else %}
+    <nav class="navigation-buttons">
+        <div class="left-navigation-buttons">
+            <button
+              {% if first_game_url is none %}disabled{% endif %}
+              onclick="location.href='{{first_game_url}}'"
+            >&lt;&lt; First</button>
+            
+            <button
+              {% if prev_game_url is none %}disabled{% endif %}
+              onclick="location.href='{{prev_game_url}}'"
+            >&lt; Previous</button>
+        </div>
+        <div class="pagination-number">{{page}}/{{last_page}}</div>
+        <div class="right-navigation-buttons">
+            <button
+              {% if next_game_url is none %}disabled{% endif %}
+              onclick="location.href='{{next_game_url}}'"
+            >Next &gt;</button>
 
-                {% if last_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{last_game_url}}'">Last</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>Last</button>
-                {% endif %}
-            </div>
-        </nav>
+            <button
+              {% if last_game_url is none %}disabled{% endif %}
+              onclick="location.href='{{last_game_url}}'"
+            >Last &gt;&gt;</button>
+        </div>
+    </nav>
 
     {% for game in batch_of_games %}
     <article id="article">
@@ -41,36 +42,6 @@
 
     </article>
     {% endfor %}
-
-    <footer>
-        <nav style="clear:both">
-            <div style="float:left">
-                {% if first_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{first_game_url}}'">First</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>First</button>
-                {% endif %}
-
-                {% if prev_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{prev_game_url}}'">Previous</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>Previous</button>
-                {% endif %}
-            </div>
-            <div style="float:right">
-                {% if next_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{next_game_url}}'">Next</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>Next</button>
-                {% endif %}
-
-                {% if last_game_url is not none %}
-                    <button class="btn-general" onclick="location.href='{{last_game_url}}'">Last</button>
-                {% else %}
-                    <button class="btn-general-disabled" disabled>Last</button>
-                {% endif %}
-            </div>
-        </nav>
-    </footer>
+    {% endif %}
 </main>
 {% endblock %}
