@@ -30,15 +30,15 @@ def browse_all_games():
     last_game_url = None
     next_game_url = None
     prev_game_url = None
+    last_page = int(length_of_entire_library / games_per_page + 1)
 
     if page > 1:
         # There are preceding games in the library, generate URL
         first_game_url = url_for('games_bp.browse_all_games', page=1, search_term=search_term, search_category=search_category)
         prev_game_url = url_for('games_bp.browse_all_games', page=page - 1, search_term=search_term, search_category=search_category)
 
-    if ((page * games_per_page) + games_per_page) < length_of_entire_library:
+    if page < last_page:
         next_game_url = url_for('games_bp.browse_all_games', page=page + 1, search_term=search_term, search_category=search_category)
-        last_page = int(length_of_entire_library / games_per_page)
         last_game_url = url_for('games_bp.browse_all_games', page=last_page, search_term=search_term, search_category=search_category)
 
     # Retrieve the batch of games to display on the Web page.
@@ -53,4 +53,6 @@ def browse_all_games():
         prev_game_url=prev_game_url,
         next_game_url=next_game_url,
         genres=utilities.get_genres(),
+        page=page,
+        last_page=last_page,
     )

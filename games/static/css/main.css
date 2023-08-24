@@ -139,7 +139,14 @@ footer > .copyright {
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
   margin-bottom: 40px;
+  align-items: center;
+}
+
+.pagination-number {
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .left-navigation-buttons button, .right-navigation-buttons button {

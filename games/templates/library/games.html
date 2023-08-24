@@ -18,6 +18,7 @@
               onclick="location.href='{{prev_game_url}}'"
             >&lt; Previous</button>
         </div>
+        <div class="pagination-number">{{page}}/{{last_page}}</div>
         <div class="right-navigation-buttons">
             <button
               {% if next_game_url is none %}disabled{% endif %}
