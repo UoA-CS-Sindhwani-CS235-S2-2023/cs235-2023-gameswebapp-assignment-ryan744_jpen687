@@ -8,6 +8,18 @@ body, html {
   font-family: 'Kanit', sans-serif;
 }
 
+a.nostyle:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+
+a.nostyle:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+
 /* Header Styles */
 
 #header {
@@ -136,6 +148,22 @@ footer > .copyright {
   font-size: 36px;
 }
 
+.game-front-cover {
+  border: 2px solid white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.game-front-cover:hover {
+  animation: scaleToCenter 0.2s linear 0s 1 normal forwards;
+}
+
+.game-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
@@ -235,4 +263,18 @@ img {
 /* Apply hover effect to active navigation link */
 .nav-link.active:hover {
   color: #e3afbc; /* Change text color on hover */
+}
+
+/* Key frames */
+
+@keyframes scaleToCenter {
+	0% {
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+		transform: scale(1);
+	}
+
+	100% {
+		box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+		transform: scale(1.01);
+	}
 }
