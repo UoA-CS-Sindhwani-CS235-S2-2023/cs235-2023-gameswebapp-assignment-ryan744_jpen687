@@ -140,17 +140,26 @@ img {
   align-items: center;
   text-align: center;
   color: white;
+  font-size: 14px;
 }
 
 .no-list-style {
-  list-style: none;
-  padding-left: 0px;
-  font-size: 14px;
+    list-style: none;
+    padding-left: 0px;
 }
 
 .nav-link {
   color: #c5c6c7;
   text-decoration: none;
+}
+
+.nav-title {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-title.active {
+  color: #e3afbc;
 }
 
 .nav-link.active {
@@ -159,6 +168,10 @@ img {
 
 /* Apply hover effect to navigation links */
 .nav-link:hover {
+  color: #e3afbc; /* Change text color on hover */
+}
+
+.nav-title:hover {
   color: #e3afbc; /* Change text color on hover */
 }
 

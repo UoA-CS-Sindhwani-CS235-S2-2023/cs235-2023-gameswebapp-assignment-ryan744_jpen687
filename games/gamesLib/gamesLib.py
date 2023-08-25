@@ -11,7 +11,7 @@ gamesLib_blueprint = Blueprint(
 @gamesLib_blueprint.route('/browse_all_games', methods=['GET'])
 def browse_all_games():
     games_per_page = 10
-    active_page = browse_all_games
+    active_page = 'browse_all_games'
 
     # Read query parameters.
     cursor = request.args.get('cursor')
