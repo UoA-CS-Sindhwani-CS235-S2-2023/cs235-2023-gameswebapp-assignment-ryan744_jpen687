@@ -1,13 +1,12 @@
 {% extends 'layout.html' %} {% block content %}
 <main id="main">
   <div class="description">
-    <br>
+      <button onclick="history.go(-1)">&lt;&lt; Back</button>
       <h2 style="color: #45A29E" >{{ game.title }}</h2>
       <p><img class="game-image" src="{{ game.image_url }}" alt="game image"> </p>
       <p><i style="color: #45A29E">Release Date:</i> {{ game.release_date }} </p>
       <p><i style="color: #45A29E">Price:</i> {{ game.price }}</p>
       <p><i style="color: #45A29E">About:</i> {{ game.description }} </p>
-
   </div>
 </main>
 {% endblock %}
