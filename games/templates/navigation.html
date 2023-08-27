@@ -5,8 +5,8 @@
       </div>
     </div>
     <ul class="nav list no-list-style">
-        <li><a style="color: white" class="nav-link {% if active_page == 'home' %}active{% endif %}" href="/" onmouseover="this.style.color='#e3afbc'" onmouseout="this.style.color='white'"><h3>Home</h3></a></li>
-        <li><a style="color: white" class="nav-link {% if active_page == 'browse_all_games' %}active{% endif %}" href="{{ url_for('games_bp.browse_all_games', page=1) }}" onmouseover="this.style.color='#e3afbc'" onmouseout="this.style.color='white'"><h3>Browse all Games</h3></a></li>
+        <li><a class="nav-title {% if active_page == 'home' %}active{% endif %}" href="/"><h3>Home</h3></a></li>
+        <li><a class="nav-title {% if active_page == 'browse_all_games' %}active{% endif %}" href="{{ url_for('games_bp.browse_all_games') }}"><h3>Browse all Games</h3></a></li>
         <li>
           <h3>Browse by Genre</h3>
           <ul class="no-list-style">
