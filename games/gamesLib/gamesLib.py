@@ -61,6 +61,7 @@ def browse_all_games():
         genres=utilities.get_genres(),
         page=page,
         last_page=last_page,
+        active_page = active_page
     )
 
 
@@ -68,9 +69,11 @@ def browse_all_games():
 def browse_games_by_genre():
     games_per_page = 10
 
+
     # Read query parameters.
     page = request.args.get('page')
     target_genre = request.args.get('genre')
+    active_page = 'browse_games_by_genre_' + target_genre
 
     if page is None:
         # No page query parameter, so initialise page to start at the beginning.
@@ -111,5 +114,6 @@ def browse_games_by_genre():
         genres=utilities.get_genres(),
         page=page,
         last_page=last_page,
+        active_page=active_page
     )
 
