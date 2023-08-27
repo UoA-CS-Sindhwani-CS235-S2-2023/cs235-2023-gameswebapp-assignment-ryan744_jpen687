@@ -11,13 +11,11 @@ body, html {
 a.nostyle:link {
   text-decoration: inherit;
   color: inherit;
-  cursor: auto;
 }
 
 a.nostyle:visited {
   text-decoration: inherit;
   color: inherit;
-  cursor: auto;
 }
 
 button, input[type=submit] {
@@ -161,6 +159,7 @@ footer > .copyright {
 }
 
 .game-front-cover {
+  cursor: pointer;
   border: 2px solid white;
   border-radius: 10px;
   margin-bottom: 20px;

@@ -6,12 +6,12 @@
     </div>
     <ul class="nav list no-list-style">
         <li><a class="nav-title {% if active_page == 'home' %}active{% endif %}" href="/"><h3>Home</h3></a></li>
-        <li><a class="nav-title {% if active_page == 'browse_all_games' %}active{% endif %}" href="{{ url_for('games_bp.browse_all_games') }}"><h3>Browse all Games</h3></a></li>
+        <li><a class="nav-title {% if active_page == 'browse_games' %}active{% endif %}" href="{{ url_for('games_bp.browse_games') }}"><h3>Browse all Games</h3></a></li>
         <li>
           <h3>Browse by Genre</h3>
           <ul class="no-list-style">
             {% for genre in genres %}
-              <li><a class="nav-link {% if active_page == 'browse_games_by_genre_' ~ genre.genre_name %}active{% endif %}" href="{{ url_for('games_bp.browse_games_by_genre', genre=genre.genre_name) }}">{{ genre.genre_name }}</a></li>
+              <li><a class="nav-link {% if active_page == 'browse_games_by_genre_' ~ genre.genre_name %}active{% endif %}" href="{{ url_for('games_bp.browse_games', page=1, genre=genre.genre_name) }}">{{ genre.genre_name }}</a></li>
             {% endfor %}
           </ul>
         </li>

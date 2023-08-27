@@ -53,6 +53,8 @@ def filter_games(batch_of_games, search_term, search_category):
 
 
 def filter_games_by_genre(batch_of_games, target_genre):
+    if target_genre is None:
+        return batch_of_games;
     def filter_by_genre(game):
         genre_names = list(map(lambda x: x.genre_name, game['genres']))
         if target_genre in genre_names:
