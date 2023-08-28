@@ -64,4 +64,4 @@ def filter_games_by_genre(batch_of_games, target_genre):
     return list(filter(filter_by_genre, batch_of_games))  # Return games from Game Dictionary based on Genres
 
 # The filter function takes a function and iterables. It will iterate through each item in the dictionary and parse
-# the item into the function if filter function return true, we can keep the item, f
+# the item into the function if filter function return true, we can keep the item
