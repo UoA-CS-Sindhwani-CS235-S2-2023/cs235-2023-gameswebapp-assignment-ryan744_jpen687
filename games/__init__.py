@@ -11,6 +11,9 @@ from games.adapters.memory_repository import MemoryRepository, populate
 def create_app():
     app = Flask(__name__)
 
+    # Configure the app from configuration-file settings.
+    app.config.from_object('config.Config')
+
     repo.repo_instance = MemoryRepository()
     populate(Path('games/adapters/data/games.csv'), repo.repo_instance)
 
@@ -29,6 +32,9 @@ def create_app():
 
         from .search import search
         app.register_blueprint(search.search_blueprint)
+
+        from .authentication import authentication
+        app.register_blueprint(authentication.authentication_blueprint)
 
     return app
 
