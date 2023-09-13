@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, session, request
+from flask import Blueprint, render_template, redirect, url_for, session
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -92,6 +92,10 @@ def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
         if 'username' not in session:
+            return redirect(url_for('authentication_bp.login'))
+        try:
+          services.get_user(session['username'], repo.repo_instance)
+        except services.UnknownUserException: 
             return redirect(url_for('authentication_bp.login'))
         return view(**kwargs)
 

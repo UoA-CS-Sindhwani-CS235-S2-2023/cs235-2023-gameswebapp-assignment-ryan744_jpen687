@@ -1,7 +1,9 @@
 import games.adapters.repository as repo
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for, session
 
 import games.utilities.utilities as utilities
+import games.gameDescription.services as services
+from games.authentication.authentication import login_required
 
 gameDescription_blueprint = Blueprint(
     'gameDescription_bp', __name__)
@@ -11,4 +13,15 @@ gameDescription_blueprint = Blueprint(
 def gameDescription(gameid):
     id = int(gameid)
     active_page = 'gameDescription'
-    return render_template('gameDescription.html', game=repo.repo_instance.get_game(id), genres=utilities.get_genres(),active_page = active_page)
+    game = repo.repo_instance.get_game(id)
+    is_favourite_game = services.is_favourite_game(game, session['username'], repo.repo_instance)
+    return render_template('gameDescription.html', game=game, genres=utilities.get_genres(),active_page = active_page, is_favourite_game=is_favourite_game)
+
+@gameDescription_blueprint.route('/toggle-favourite-game', methods=['POST'])
+@login_required
+def toggleFavouriteGame():
+    form_data = request.form
+    id = int(form_data['gameId'])
+    game = repo.repo_instance.get_game(id)
+    services.toggle_favourite_game_for_user(game, session['username'], repo.repo_instance)
+    return redirect(url_for('gameDescription_bp.gameDescription', gameid=id))
