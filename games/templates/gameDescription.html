@@ -1,7 +1,13 @@
 {% extends 'layout.html' %} {% block content %}
 <main id="main">
   <div class="description">
-      <button onclick="history.go(-1)">&lt;&lt; Back</button>
+      <div class="game-description-top-bar">
+        <button onclick="history.go(-1)">&lt;&lt; Back</button>
+        <form action="/toggle-favourite-game" method="POST">
+          <input type="hidden" name="gameId" value="{{ game.game_id }}">
+          <input type="submit" value="{% if is_favourite_game == True %}Remove from Favourites{% else %}Add to Favourites{% endif %}">
+        </form>
+      </div>
       <h2 style="color: #45A29E" >{{ game.title }}</h2>
       <p><img class="game-image" src="{{ game.image_url }}" alt="game image"> </p>
       <p><i style="color: #45A29E">Publisher: </i> {{ game.publisher.publisher_name }}
