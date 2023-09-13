@@ -4,6 +4,7 @@ from bisect import insort_left
 
 from games.adapters.repository import AbstractRepository
 from games.adapters.datareader.csvdatareader import GameFileCSVReader
+from games.domainmodel.model import User
 
 
 class MemoryRepository(AbstractRepository):
@@ -14,6 +15,13 @@ class MemoryRepository(AbstractRepository):
         self.__genres = set()
         self.__games = []
         self.__games_index = dict()
+        self.__users = list()
+
+    def add_user(self, user: User):
+        self.__users.append(user)
+
+    def get_user(self, username) -> User:
+        return next((user for user in self.__users if user.username == username.lower()), None)
 
     def add_publisher(self, publisher):
         self.__publishers.add(publisher)
