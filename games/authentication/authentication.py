@@ -65,7 +65,7 @@ def login():
 
         except services.UnknownUserException:
             # Username not known to the system, set a suitable error message.
-            unrecognised_user = 'User name not recognised - please supply another'
+            unrecognised_user = 'User name not recognised'
 
         except services.AuthenticationException:
             # Authentication failed, set a suitable error message.
