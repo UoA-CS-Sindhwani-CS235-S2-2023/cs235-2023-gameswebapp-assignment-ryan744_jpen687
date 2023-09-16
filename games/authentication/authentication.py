@@ -27,8 +27,10 @@ def register():
         try:
             services.add_user(form.username.data, form.password.data, repo.repo_instance)
 
-            # All is well, redirect the user to the login page.
-            return redirect(url_for('authentication_bp.login'))
+            # Initialise session and redirect the user to the home page.
+            session.clear()
+            session['username'] = form.username.data;
+            return redirect(url_for('home_bp.home'))
         except services.NameNotUniqueException:
             non_unique_username = 'Your username is already taken - please pick another username.'
 
@@ -40,6 +42,7 @@ def register():
         user_name_error_message=non_unique_username,
         handler_url=url_for('authentication_bp.register'),
         genres=utilities.get_genres(),
+        logged_in_username=logged_in_username(),
     )
 
 
@@ -79,6 +82,7 @@ def login():
         password_error_message=unmatched_pass_and_user,
         form=form,
         genres=utilities.get_genres(),
+        logged_in_username=logged_in_username(),
     )
 
 
@@ -101,6 +105,15 @@ def login_required(view):
 
     return wrapped_view
 
+def logged_in_username():
+    if session['username'] is None:
+        return None;
+    try:
+      user = services.get_user(session['username'], repo.repo_instance)
+      print(user)
+      return user['username'];
+    except services.UnknownUserException: 
+        return None;
 
 class CustomPasswordValidator:
     def __init__(self, message=None):

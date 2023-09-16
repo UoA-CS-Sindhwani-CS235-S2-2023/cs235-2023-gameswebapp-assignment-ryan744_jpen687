@@ -4,6 +4,7 @@ import math
 import games.gamesLib.services as services
 import games.adapters.repository as repo
 from games.utilities import utilities
+from games.authentication.authentication import logged_in_username
 
 gamesLib_blueprint = Blueprint(
     'games_bp', __name__)
@@ -70,5 +71,6 @@ def browse_games():
         genres=utilities.get_genres(),
         page=page,
         last_page=last_page,
-        active_page = active_page
+        active_page = active_page,
+        logged_in_username=logged_in_username(),
     )
