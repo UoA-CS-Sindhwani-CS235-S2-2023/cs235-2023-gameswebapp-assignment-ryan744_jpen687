@@ -1,6 +1,4 @@
-{% extends 'layout.html' %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block content %}
 <h1>Hi, {{ logged_in_username }}</h1>
 <button>
   <a class="nostyle" href="{{ url_for('authentication_bp.logout') }}">Log out</a>
@@ -21,4 +19,24 @@
     </div>
 {% endfor %}
 {% endif %}
+
+<br>
+{% if reviews|length == 0 %}
+    No games were reviewed.
+{% else %}
+    <h2>You reviewed the following games:</h2>
+    {% for review in reviews %}
+    <div class="game-front-cover">
+      <a class="nostyle" href="{{ url_for('gameDescription_bp.gameDescription', gameid=review.game.game_id) }}">
+          <div class="game-image-container">
+            <img class="game-image" src={{review.game.image_url}} alt="Game image">
+          </div>
+          <h2>{{review.game.title}}</h2>
+          <p>You commented: {{review.comment}}</p>
+          <p>You rated: {{review.rating}} for this game</p>
+      </a>
+    </div>
+{% endfor %}
+{% endif %}
+
 {% endblock %}
