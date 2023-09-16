@@ -15,14 +15,17 @@ def gameDescription(gameid):
     active_page = 'gameDescription'
     game = repo.repo_instance.get_game(id)
     if 'username' in session:
-      is_favourite_game = services.is_favourite_game(game, session['username'], repo.repo_instance)
+        is_favourite_game = services.is_favourite_game(game, session['username'], repo.repo_instance)
+    else:
+        is_favourite_game = False
     return render_template('gameDescription.html',
-      game=game,
-      genres=utilities.get_genres(),
-      active_page=active_page,
-      is_favourite_game=is_favourite_game,
-      logged_in_username=logged_in_username(),
-    )
+                           game=game,
+                           genres=utilities.get_genres(),
+                           active_page=active_page,
+                           is_favourite_game=is_favourite_game,
+                           logged_in_username=logged_in_username(),
+                           )
+
 
 @gameDescription_blueprint.route('/toggle-favourite-game', methods=['POST'])
 @login_required
