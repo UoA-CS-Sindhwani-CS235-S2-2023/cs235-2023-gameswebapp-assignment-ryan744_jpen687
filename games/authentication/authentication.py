@@ -106,11 +106,10 @@ def login_required(view):
     return wrapped_view
 
 def logged_in_username():
-    if session['username'] is None:
+    if 'username' not in session:
         return None;
     try:
       user = services.get_user(session['username'], repo.repo_instance)
-      print(user)
       return user['username'];
     except services.UnknownUserException: 
         return None;

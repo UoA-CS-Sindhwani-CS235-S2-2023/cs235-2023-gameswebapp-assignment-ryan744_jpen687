@@ -14,7 +14,8 @@ def gameDescription(gameid):
     id = int(gameid)
     active_page = 'gameDescription'
     game = repo.repo_instance.get_game(id)
-    is_favourite_game = services.is_favourite_game(game, session['username'], repo.repo_instance)
+    if 'username' in session:
+      is_favourite_game = services.is_favourite_game(game, session['username'], repo.repo_instance)
     return render_template('gameDescription.html',
       game=game,
       genres=utilities.get_genres(),
