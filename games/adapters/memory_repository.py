@@ -4,7 +4,7 @@ from bisect import insort_left
 
 from games.adapters.repository import AbstractRepository
 from games.adapters.datareader.csvdatareader import GameFileCSVReader
-from games.domainmodel.model import User
+from games.domainmodel.model import User, Review
 
 
 class MemoryRepository(AbstractRepository):
@@ -16,6 +16,7 @@ class MemoryRepository(AbstractRepository):
         self.__games = []
         self.__games_index = dict()
         self.__users = list()
+        self.__reviews = list()
 
     def add_user(self, user: User):
         self.__users.append(user)
@@ -64,6 +65,12 @@ class MemoryRepository(AbstractRepository):
         # Fetch the list of Games in Dictionary form.
         # all_games = [self.__games_index[id] for id in id_list]
         return list(self.__games)
+
+    def add_review(self, new_review: Review):
+        self.__reviews.append(new_review)
+
+    def get_reviews(self):
+        return self.__reviews
 
 
 def populate(data_path: Path, repo: MemoryRepository):

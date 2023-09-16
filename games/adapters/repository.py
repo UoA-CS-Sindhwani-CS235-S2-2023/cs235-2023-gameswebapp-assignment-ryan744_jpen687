@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from games.domainmodel.model import Publisher, Genre, Game, User
+from games.domainmodel.model import Publisher, Genre, Game, User, Review
 
 repo_instance = None
 
@@ -73,4 +73,19 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def get_last_game(self):
         """Return thr last Game Object"""
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def add_review(self, new_review: Review):
+        """ Adds a review (comment + rating) to the repository.
+
+        If the Review doesn't have links with a User, this method raises a
+        RepositoryException and doesn't update the repository.
+        """
+        if new_review.user is None or new_review not in new_review.user.reviews:
+            raise RepositoryException('Review not correctly attached to a User')
+
+    @abc.abstractmethod
+    def get_reviews(self):
+        """ Returns the Reviews stored in the repository. """
         raise NotImplementedError
