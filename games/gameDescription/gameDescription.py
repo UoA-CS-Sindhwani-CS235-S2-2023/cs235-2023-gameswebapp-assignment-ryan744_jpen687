@@ -10,7 +10,7 @@ gameDescription_blueprint = Blueprint(
 
 
 @gameDescription_blueprint.route('/game-description/<gameid>', methods=['GET'])
-def gameDescription(gameid):
+def gameDescription(gameid, rating=None, comment=None):
     id = int(gameid)
     active_page = 'gameDescription'
     game = repo.repo_instance.get_game(id)
@@ -18,12 +18,16 @@ def gameDescription(gameid):
         is_favourite_game = services.is_favourite_game(game, session['username'], repo.repo_instance)
     else:
         is_favourite_game = False
+
+    reviews_of_this_game = services.display_all_reviews_for_a_game(id, repo.repo_instance)
+
     return render_template('gameDescription.html',
                            game=game,
                            genres=utilities.get_genres(),
                            active_page=active_page,
                            is_favourite_game=is_favourite_game,
                            logged_in_username=logged_in_username(),
+                           all_reviews=reviews_of_this_game,
                            )
 
 
@@ -34,4 +38,15 @@ def toggleFavouriteGame():
     id = int(form_data['gameId'])
     game = repo.repo_instance.get_game(id)
     services.toggle_favourite_game_for_user(game, session['username'], repo.repo_instance)
+    return redirect(url_for('gameDescription_bp.gameDescription', gameid=id))
+
+
+@gameDescription_blueprint.route('/add_review', methods=['GET', 'POST'])
+@login_required
+def adding_review_for_a_game():
+    form_data = request.form
+    id = int(form_data['gameId'])
+    rating = int(form_data['rating'])
+    comment = str(form_data['comment'])
+    services.adding_a_new_review_for_game(id, session['username'], rating, comment, repo.repo_instance)
     return redirect(url_for('gameDescription_bp.gameDescription', gameid=id))
