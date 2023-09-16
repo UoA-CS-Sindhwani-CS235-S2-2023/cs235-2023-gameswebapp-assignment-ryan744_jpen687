@@ -1,5 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div>My Profile</div>
+<h1>Hi, {{ logged_in_username }}</h1>
+<button>
+  <a class="nostyle" href="{{ url_for('authentication_bp.logout') }}">Log out</a>
+</button>
+{% if favourite_games|length == 0 %}
+    No games in your favourites.
+{% else %}
+    <h2>Your favourite games:</h2>
+    {% for game in favourite_games %}
+    <div class="game-front-cover">
+      <a class="nostyle" href="{{ url_for('gameDescription_bp.gameDescription', gameid=game.id) }}">
+          <div class="game-image-container">
+            <img class="game-image" src={{game.image_hyperlink}} alt="Game image">
+          </div>
+          <h2>{{game.title}}</h2>
+          <p>{{game.summary}}</p>
+      </a>
+    </div>
+{% endfor %}
+{% endif %}
 {% endblock %}

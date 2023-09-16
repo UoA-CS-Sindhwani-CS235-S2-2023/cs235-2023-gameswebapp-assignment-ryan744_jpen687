@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from bisect import insort_left
 
 class Publisher:
     def __init__(self, publisher_name: str):
@@ -253,7 +253,7 @@ class User:
     def add_favourite_game(self, game):
         if not isinstance(game, Game) or game in self.__favourite_games:
             return
-        self.__favourite_games.append(game)
+        insort_left(self.__favourite_games, game, key=lambda x: x.title)
 
     def remove_favourite_game(self, game):
         if not isinstance(game, Game) or game not in self.__favourite_games:
