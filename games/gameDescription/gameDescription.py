@@ -36,8 +36,7 @@ def gameDescription(gameid, rating=None, comment=None):
 def toggleFavouriteGame():
     form_data = request.form
     id = int(form_data['gameId'])
-    game = repo.repo_instance.get_game(id)
-    services.toggle_favourite_game_for_user(game, session['username'], repo.repo_instance)
+    services.toggle_favourite_game_for_user(id, session['username'], repo.repo_instance)
     return redirect(url_for('gameDescription_bp.gameDescription', gameid=id))
 
 
