@@ -1,5 +1,5 @@
 from games.adapters.memory_repository import MemoryRepository, populate
-from games.domainmodel.model import Genre, Game, Publisher
+from games.domainmodel.model import Genre, Game, Publisher, User
 from pathlib import Path
 import pytest
 
@@ -48,3 +48,26 @@ class TestMemoryRepository:
         empty_repository.add_genre(genre)
         empty_repository.add_genre(genre)
         assert len(empty_repository.get_genres()) == 1
+
+    def test_add_users_favourite_game(self, empty_repository):
+        game = Game(1, "Game A")
+        empty_repository.add_game(game)
+        user = User("Ray", "aA123456")
+        empty_repository.add_user(user)
+        
+        empty_repository.add_users_favourite_game("Ray", 1)
+
+        favourite_games = empty_repository.get_users_favourite_games("Ray")
+        assert favourite_games == [game]
+
+    def test_remove_users_favourite_game(self, empty_repository):
+        game = Game(1, "Game A")
+        empty_repository.add_game(game)
+        user = User("Ray", "aA123456")
+        empty_repository.add_user(user)
+        empty_repository.add_users_favourite_game("Ray", 1)
+
+        empty_repository.remove_users_favourite_game("Ray", 1)
+
+        favourite_games = empty_repository.get_users_favourite_games("Ray")
+        assert favourite_games == []
