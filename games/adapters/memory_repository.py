@@ -76,6 +76,7 @@ class MemoryRepository(AbstractRepository):
     def get_reviews(self):
         return self.__reviews
 
+
 def read_csv_file(filename: str):
     with open(filename, encoding='utf-8-sig') as infile:
         reader = csv.reader(infile)
@@ -101,6 +102,22 @@ def load_users(data_path: Path, repo: MemoryRepository):
         repo.add_user(user)
         users[data_row[0]] = user
     return users
+
+  
+    def get_users_favourite_games(self, username):
+        user = self.get_user(username)
+        return user.favourite_games
+  
+    def add_users_favourite_game(self, username, game_id):
+        user = self.get_user(username)
+        game = self.get_game(game_id)
+        user.add_favourite_game(game)
+
+    def remove_users_favourite_game(self, username, game_id):
+        user = self.get_user(username)
+        game = self.get_game(game_id)
+        user.remove_favourite_game(game)
+
 
 def populate(data_path: Path, repo: MemoryRepository):
     reader = GameFileCSVReader(data_path)

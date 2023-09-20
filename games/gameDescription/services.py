@@ -2,21 +2,17 @@ from games.adapters.repository import AbstractRepository
 from games.domainmodel.model import Review
 
 
-def toggle_favourite_game_for_user(game, username, repo: AbstractRepository):
-    user = repo.get_user(username)
-    if game in user.favourite_games:
-        user.remove_favourite_game(game)
+def toggle_favourite_game_for_user(game_id, username, repo: AbstractRepository):
+    game = repo.get_game(game_id)
+    favourite_games = repo.get_users_favourite_games(username)
+    if game in favourite_games:
+        repo.remove_users_favourite_game(username, game_id)
     else:
-        user.add_favourite_game(game)
+        repo.add_users_favourite_game(username, game_id)
 
 
 def is_favourite_game(game, username, repo: AbstractRepository):
-    if username is None:
-        return False
-    user = repo.get_user(username)
-    if user is None:
-        return False
-    favourite_games = user.favourite_games
+    favourite_games = repo.get_users_favourite_games(username)
     if game in favourite_games:
         return True
     else:

@@ -2,8 +2,8 @@ from games.gamesLib.services import multi_games_to_dict
 
 
 def get_favourite_games(username, repo):
-    user = repo.get_user(username)
-    return multi_games_to_dict(user.favourite_games)
+    favourite_games = repo.get_users_favourite_games(username)
+    return multi_games_to_dict(favourite_games)
 
 
 def get_reviews_done_by_user(username, repo):
