@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 
 from bisect import insort_left
@@ -5,6 +6,9 @@ from bisect import insort_left
 from games.adapters.repository import AbstractRepository
 from games.adapters.datareader.csvdatareader import GameFileCSVReader
 from games.domainmodel.model import User, Review
+
+from werkzeug.security import generate_password_hash
+
 
 
 class MemoryRepository(AbstractRepository):
@@ -72,6 +76,31 @@ class MemoryRepository(AbstractRepository):
     def get_reviews(self):
         return self.__reviews
 
+def read_csv_file(filename: str):
+    with open(filename, encoding='utf-8-sig') as infile:
+        reader = csv.reader(infile)
+
+        # Read first line of the the CSV file.
+        headers = next(reader)
+
+        # Read remaining rows from the CSV file.
+        for row in reader:
+            # Strip any leading/trailing white space from data read.
+            row = [item.strip() for item in row]
+            yield row
+
+def load_users(data_path: Path, repo: MemoryRepository):
+    users = dict()
+
+    users_filename = str(Path(data_path) / "users.csv")
+    for data_row in read_csv_file(users_filename):
+        user = User(
+            username=data_row[1],
+            password=generate_password_hash(data_row[2])
+        )
+        repo.add_user(user)
+        users[data_row[0]] = user
+    return users
 
 def populate(data_path: Path, repo: MemoryRepository):
     reader = GameFileCSVReader(data_path)

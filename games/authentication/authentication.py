@@ -27,10 +27,9 @@ def register():
         try:
             services.add_user(form.username.data, form.password.data, repo.repo_instance)
 
-            # Initialise session and redirect the user to the home page.
-            session.clear()
-            session['username'] = form.username.data;
-            return redirect(url_for('home_bp.home'))
+
+            # All is well, redirect the user to the login page.
+            return redirect(url_for('authentication_bp.login'))
         except services.NameNotUniqueException:
             non_unique_username = 'Your username is already taken - please pick another username.'
 
