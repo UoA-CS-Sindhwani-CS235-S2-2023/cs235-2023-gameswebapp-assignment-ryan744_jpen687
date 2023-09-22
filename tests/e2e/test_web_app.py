@@ -191,3 +191,51 @@ def test_can_browse_all_games_when_logged_in(client, auth):
 
     # Check that the game description matches the one of game ID = 1304320
     assert b'Metal Infinite' in response.data
+
+
+def test_comment(client, auth):
+    # Login a user.
+    auth.login()
+
+    # Check that we can retrieve the comment page.
+    response = client.get('/game-description/435790')
+
+    response = client.post(
+        '/comment',
+        data={'comment': 'Who needs quarantine?', 'article_id': 2}
+    )
+    assert response.headers['Location'] == 'http://localhost/articles_by_date?date=2020-02-29&view_comments_for=2'
+
+
+def test_login_required_to_comment(client):
+    response = client.post('/comment')
+    assert response.headers['Location'] == 'http://localhost/authentication/login'
+
+
+@pytest.mark.parametrize(('comment', 'messages'), (
+        ('Who thinks Trump is a f***wit?', b'Your comment must not contain profanity'),
+        ('Hey', b'Your comment is too short'),
+        ('ass', (b'Your comment is too short', b'Your comment must not contain profanity')),
+))
+def test_comment_with_invalid_input(client, auth, comment, messages):
+    # Login a user.
+    auth.login()
+
+    # Attempt to comment on an article.
+    response = client.post(
+        '/comment',
+        data={'comment': comment, 'article_id': 2}
+    )
+    # Check that supplying invalid comment text generates appropriate error messages.
+    for message in messages:
+        assert message in response.data
+
+
+def test_articles_with_comment(client):
+    # Check that we can retrieve the articles page.
+    response = client.get('/articles_by_date?date=2020-02-28&view_comments_for=1')
+    assert response.status_code == 200
+
+    # Check that all comments for specified article are included on the page.
+    assert b'Oh no, COVID-19 has hit New Zealand' in response.data
+    assert b'Yeah Freddie, bad news' in response.data
