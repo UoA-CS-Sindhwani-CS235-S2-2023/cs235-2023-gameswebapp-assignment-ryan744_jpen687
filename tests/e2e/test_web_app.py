@@ -192,6 +192,66 @@ def test_can_browse_all_games_when_logged_in(client, auth):
     # Check that the game description matches the one of game ID = 1304320
     assert b'Metal Infinite' in response.data
 
+def test_can_browse_games_filtered_by_genre(client):
+    # Go to browse games by Action genre
+    response = client.get('/browse_games?page=1&target_genre=Action')
+    assert response.status_code == 200
+
+    # Check that a game with Action genre is returned
+    assert b'10 SECOND NINJA X' in response.data
+
+def test_can_search_games_by_title(client):
+    # Post a request to do a search
+    response = client.post(
+        '/search',
+        data={'searchTerm': 'Ninja', 'searchCategory': 'title'}
+    )
+    assert response.status_code == 302
+
+    # Follow the redirection to the games library screen
+    redirection_location = response.headers['Location']
+    redirected_response = client.get(redirection_location)
+
+    # Check that the correct game is returned
+    assert b'10 SECOND NINJA X' in redirected_response.data
+
+def test_can_search_games_by_genre(client):
+    # Post a request to do a search
+    response = client.post(
+        '/search',
+        data={'searchTerm': 'Action', 'searchCategory': 'genre'}
+    )
+    assert response.status_code == 302
+
+    # Follow the redirection to the games library screen
+    redirection_location = response.headers['Location']
+    redirected_response = client.get(redirection_location)
+
+    # Check that the correct game is returned
+    assert b'10 SECOND NINJA X' in redirected_response.data
+
+def test_can_search_games_by_publisher(client):
+    # Post a request to do a search
+    response = client.post(
+        '/search',
+        data={'searchTerm': 'Curve Games', 'searchCategory': 'publisher'}
+    )
+    assert response.status_code == 302
+
+    # Follow the redirection to the games library screen
+    redirection_location = response.headers['Location']
+    redirected_response = client.get(redirection_location)
+
+    # Check that the correct game is returned
+    assert b'10 SECOND NINJA X' in redirected_response.data
+
+def test_search_games_none_returned(client):
+    # Go to search games by publisher
+    response = client.get('/browse_games?page=1&search_term=Apples&search_category=publisher')
+    assert response.status_code == 200
+
+    # Check that the correct game is returned
+    assert b'No results' in response.data
 
 def test_comment(client, auth):
     # Login a user.
