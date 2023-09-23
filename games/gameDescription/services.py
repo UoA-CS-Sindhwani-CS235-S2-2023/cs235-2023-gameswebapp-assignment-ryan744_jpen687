@@ -31,4 +31,4 @@ def adding_a_new_review_for_game(gameID, username, new_rating, new_comment, repo
         user = repo.get_user(username)
         new_review = Review(user, game, new_rating, new_comment)
         game.reviews.append(new_review)
-        user.add_review(new_review)  # linking the user object to the reivew object
+        user.add_review(new_review)  # linking the user object to the review object

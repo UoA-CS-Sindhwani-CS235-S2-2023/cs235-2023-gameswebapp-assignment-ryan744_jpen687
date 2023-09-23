@@ -192,6 +192,7 @@ def test_can_browse_all_games_when_logged_in(client, auth):
     # Check that the game description matches the one of game ID = 1304320
     assert b'Metal Infinite' in response.data
 
+
 def test_can_browse_games_filtered_by_genre(client):
     # Go to browse games by Action genre
     response = client.get('/browse_games?page=1&target_genre=Action')
@@ -199,6 +200,7 @@ def test_can_browse_games_filtered_by_genre(client):
 
     # Check that a game with Action genre is returned
     assert b'10 SECOND NINJA X' in response.data
+
 
 def test_can_search_games_by_title(client):
     # Post a request to do a search
@@ -215,6 +217,7 @@ def test_can_search_games_by_title(client):
     # Check that the correct game is returned
     assert b'10 SECOND NINJA X' in redirected_response.data
 
+
 def test_can_search_games_by_genre(client):
     # Post a request to do a search
     response = client.post(
@@ -229,6 +232,7 @@ def test_can_search_games_by_genre(client):
 
     # Check that the correct game is returned
     assert b'10 SECOND NINJA X' in redirected_response.data
+
 
 def test_can_search_games_by_publisher(client):
     # Post a request to do a search
@@ -245,6 +249,7 @@ def test_can_search_games_by_publisher(client):
     # Check that the correct game is returned
     assert b'10 SECOND NINJA X' in redirected_response.data
 
+
 def test_search_games_none_returned(client):
     # Go to search games by publisher
     response = client.get('/browse_games?page=1&search_term=Apples&search_category=publisher')
@@ -253,49 +258,59 @@ def test_search_games_none_returned(client):
     # Check that the correct game is returned
     assert b'No results' in response.data
 
-def test_comment(client, auth):
+
+def test_comment_can_be_added_when_logged_in(client, auth):
     # Login a user.
     auth.login()
 
-    # Check that we can retrieve the comment page.
-    response = client.get('/game-description/435790')
-
     response = client.post(
-        '/comment',
-        data={'comment': 'Who needs quarantine?', 'article_id': 2}
+        '/add_review',
+        data={'gameId': 1304320, 'rating': 3, 'comment': 'Overall, this is a solid game with simple graphics and a '
+                                                         'compelling story.'}
     )
-    assert response.headers['Location'] == 'http://localhost/articles_by_date?date=2020-02-29&view_comments_for=2'
+
+    new_response = client.get('/my-profile')
+
+    assert response.status_code == 302  # check that the user goes back to the same page after commenting
+    #  assert b'10 SECOND NINJA X' in response.data
+
+    # Check that the game is in users reviewed list (in their profile page)
+    assert new_response.status_code == 200
+    assert b'Metal Infinite' in new_response.data
 
 
-def test_login_required_to_comment(client):
-    response = client.post('/comment')
-    assert response.headers['Location'] == 'http://localhost/authentication/login'
-
-
-@pytest.mark.parametrize(('comment', 'messages'), (
-        ('Who thinks Trump is a f***wit?', b'Your comment must not contain profanity'),
-        ('Hey', b'Your comment is too short'),
-        ('ass', (b'Your comment is too short', b'Your comment must not contain profanity')),
-))
-def test_comment_with_invalid_input(client, auth, comment, messages):
-    # Login a user.
-    auth.login()
-
-    # Attempt to comment on an article.
+def test_login_is_required_to_comment(client):
     response = client.post(
-        '/comment',
-        data={'comment': comment, 'article_id': 2}
+        '/add_review',
+        data={'gameId': 435790, 'rating': 3, 'comment': 'Overall, this is a solid game with simple graphics and a '
+                                                        'compelling story.'}
     )
-    # Check that supplying invalid comment text generates appropriate error messages.
-    for message in messages:
-        assert message in response.data
+    assert response.headers['Location'] == '/authentication/login'
 
-
-def test_articles_with_comment(client):
-    # Check that we can retrieve the articles page.
-    response = client.get('/articles_by_date?date=2020-02-28&view_comments_for=1')
-    assert response.status_code == 200
-
-    # Check that all comments for specified article are included on the page.
-    assert b'Oh no, COVID-19 has hit New Zealand' in response.data
-    assert b'Yeah Freddie, bad news' in response.data
+# @pytest.mark.parametrize(('comment', 'messages'), (
+#         ('Who thinks Trump is a f***wit?', b'Your comment must not contain profanity'),
+#         ('Hey', b'Your comment is too short'),
+#         ('ass', (b'Your comment is too short', b'Your comment must not contain profanity')),
+# ))
+# def test_comment_with_invalid_input(client, auth, comment, messages):
+#     # Login a user.
+#     auth.login()
+#
+#     # Attempt to comment on an article.
+#     response = client.post(
+#         '/comment',
+#         data={'comment': comment, 'article_id': 2}
+#     )
+#     # Check that supplying invalid comment text generates appropriate error messages.
+#     for message in messages:
+#         assert message in response.data
+#
+#
+# def test_articles_with_comment(client):
+#     # Check that we can retrieve the articles page.
+#     response = client.get('/articles_by_date?date=2020-02-28&view_comments_for=1')
+#     assert response.status_code == 200
+#
+#     # Check that all comments for specified article are included on the page.
+#     assert b'Oh no, COVID-19 has hit New Zealand' in response.data
+#     assert b'Yeah Freddie, bad news' in response.data

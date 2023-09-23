@@ -149,4 +149,4 @@ def load_games(data_path: Path, repo: MemoryRepository):
 def populate(data_path: Path, repo: MemoryRepository):
     load_games(data_path, repo)
 
-    load_users(data_path, repo);
+    load_users(data_path, repo)

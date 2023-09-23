@@ -15,7 +15,6 @@ def create_app(test_config=None):
     app.config.from_object('config.Config')
     data_path = Path('games/adapters/data')
 
-
     if test_config is not None:
         app.config.from_mapping(test_config)
         data_path = app.config['TEST_DATA_PATH']
@@ -46,4 +45,3 @@ def create_app(test_config=None):
         app.register_blueprint(profile.profile_blueprint)
 
     return app
-
