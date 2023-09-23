@@ -16,7 +16,6 @@ def game_to_dict(game: Game):
         'price': game.price,
         'publisher': game.publisher,
         'summary': summary,
-        'hyperlink': game.website_url,
         'image_hyperlink': game.image_url,
         'genres': game.genres,
     }
@@ -36,32 +35,15 @@ def get_batch_games(repo: AbstractRepository):
 
     return games_as_dict
 
-def filter_games(batch_of_games, search_term, search_category):
-    if search_term is None:
-        return batch_of_games
-    def filter_fn(game):
-        if search_category == 'genre':
-            genre_names = map(lambda x: x.genre_name, game['genres'])
-            if search_term.title() in genre_names:
-                return True
-        if search_category == 'title' and search_term.lower() in game['title'].lower():
-            return True
-        if search_category == 'publisher' and search_term.lower() in game['publisher'].publisher_name.lower():
-            return True
-        return False
-    return list(filter(filter_fn, batch_of_games))
 
+def search_games_by_category(search_term, search_category, repo):
+    if search_category == 'genre':
+        batch_of_games = repo.search_games_by_genre(search_term);
+    elif search_category == 'title':
+        batch_of_games = repo.search_games_by_title(search_term);
+    elif search_category == 'publisher':
+        batch_of_games = repo.search_games_by_publisher(search_term);
+    return multi_games_to_dict(batch_of_games);
 
-def filter_games_by_genre(batch_of_games, target_genre):
-    if target_genre is None:
-        return batch_of_games;
-    def filter_by_genre(game):
-        genre_names = list(map(lambda x: x.genre_name, game['genres']))
-        if target_genre in genre_names:
-            return True
-        return False
-
-    return list(filter(filter_by_genre, batch_of_games))  # Return games from Game Dictionary based on Genres
-
-# The filter function takes a function and iterables. It will iterate through each item in the dictionary and parse
-# the item into the function if filter function return true, we can keep the item
+def get_games_by_genre(genre_name, repo):
+    return multi_games_to_dict(repo.search_games_by_genre(genre_name));
