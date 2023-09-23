@@ -31,7 +31,7 @@ class TestMemoryRepository:
         assert non_existent_game is None
 
     def test_populate(self, empty_repository):
-        data_path = Path('tests/data/games.csv')
+        data_path = Path('tests/data')
         populate(data_path, empty_repository)
         assert empty_repository.get_game(1) is not None
         assert len(empty_repository.get_publishers()) > 0

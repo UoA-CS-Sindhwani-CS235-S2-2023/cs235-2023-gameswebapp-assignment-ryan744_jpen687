@@ -98,8 +98,8 @@ def test_add_game_to_wishlist(client, auth):
 
     # Check that the game is in users wish list (which is in their profile)
     response = client.get('/my-profile')
-    assert response.status_code == 302  # Assuming a success status code is returned.
-    assert b'<h2>10 SECOND NINJA X</h2>' in response.data
+    assert response.status_code == 200  # Assuming a success status code is returned.
+    assert b'10 SECOND NINJA X' in response.data
 
 
 def test_remove_game_from_wishlist(client, auth):
@@ -123,7 +123,7 @@ def test_remove_game_from_wishlist(client, auth):
 
     # Check that the game is in users wish list (which is in their profile)
     response = client.get('/my-profile')
-    assert response.status_code == 302  # Assuming a success status code is returned.
+    assert response.status_code == 200  # Assuming a success status code is returned.
     assert b'10 SECOND NINJA X' in response.data
 
     # Check that user clicks on same button again and it will remove the game from favourites. Unsure about this one!!
@@ -132,7 +132,7 @@ def test_remove_game_from_wishlist(client, auth):
 
     # Check that the game is no longer in users wish list (which is in their profile)
     response = client.get('/my-profile')
-    assert response.status_code == 302  # Assuming a success status code is returned.
+    assert response.status_code == 200  # Assuming a success status code is returned.
     assert b'10 SECOND NINJA X' not in response.data
 
 

@@ -13,7 +13,7 @@ def create_app(test_config=None):
 
     # Configure the app from configuration-file settings.
     app.config.from_object('config.Config')
-    data_path = Path('games/adapters/data/games.csv')
+    data_path = Path('games/adapters/data')
 
 
     if test_config is not None:
