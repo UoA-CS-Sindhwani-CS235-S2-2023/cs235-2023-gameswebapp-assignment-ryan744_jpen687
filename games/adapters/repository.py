@@ -105,3 +105,17 @@ class AbstractRepository(abc.ABC):
         """ Remove the game with the specified game_id from the favourite games list for the user """
         raise NotImplementedError
     
+    @abc.abstractmethod
+    def search_games_by_genre(self, search_term):
+        """ Find games with a genre that matches the search term """
+        raise NotImplementedError
+    
+    @abc.abstractmethod
+    def search_games_by_title(self, search_term):
+        """ Find games with a title that matches the search term """
+        raise NotImplementedError
+    
+    @abc.abstractmethod
+    def search_games_by_publisher(self, search_term):
+        """ Find games with a publisher that matches the search term """
+        raise NotImplementedError

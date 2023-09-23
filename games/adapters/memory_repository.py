@@ -88,7 +88,25 @@ class MemoryRepository(AbstractRepository):
         user = self.get_user(username)
         game = self.get_game(game_id)
         user.remove_favourite_game(game)
+    
+    def search_games_by_genre(self, search_term):
+        def filter_fn(game):
+            genre_names = map(lambda x: x.genre_name.lower(), game.genres)
+            if search_term.lower() in genre_names:
+                return True
+        return list(filter(filter_fn, self.__games))
+  
+    def search_games_by_title(self, search_term):
+      def filter_fn(game):
+          if search_term.lower() in game.title.lower():
+            return True
+      return list(filter(filter_fn, self.__games))
 
+    def search_games_by_publisher(self, search_term):
+      def filter_fn(game):
+          if search_term.lower() in game.publisher.publisher_name.lower():
+            return True
+      return list(filter(filter_fn, self.__games))
 
 def read_csv_file(filename: str):
     with open(filename, encoding='utf-8-sig') as infile:

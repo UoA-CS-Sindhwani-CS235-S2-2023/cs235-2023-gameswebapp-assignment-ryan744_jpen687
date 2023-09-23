@@ -21,10 +21,13 @@ def browse_games():
     target_genre = request.args.get('genre')
 
     if target_genre is not None:
+        batch_of_games = services.get_games_by_genre(target_genre, repo.repo_instance)
         active_page = 'browse_games_by_genre_' + target_genre
     elif search_term is not None:
+        batch_of_games = services.search_games_by_category(search_term, search_category, repo.repo_instance)
         active_page = None;
     else:
+        batch_of_games = services.get_batch_games(repo.repo_instance)
         active_page = 'browse_games'
 
     if page is None:
@@ -33,9 +36,6 @@ def browse_games():
 
     page = int(page)
 
-    batch_of_games = services.get_batch_games(repo.repo_instance)
-    batch_of_games = services.filter_games(batch_of_games, search_term, search_category)
-    batch_of_games = services.filter_games_by_genre(batch_of_games, target_genre)
     length_of_entire_library = len(batch_of_games)
 
     first_game_url = None

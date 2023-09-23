@@ -56,3 +56,48 @@ def test_remove_users_favourite_game(in_memory_repo):
 
     favourite_games = in_memory_repo.get_users_favourite_games("Xi")
     assert favourite_games == []
+
+def test_search_games_by_genre(in_memory_repo):
+    expected = [ Game(435790, '10 Second Ninja X'), Game(1304320, '重装无限·Metal Infinite') ]
+    games = in_memory_repo.search_games_by_genre('Indie')
+    assert games == expected
+
+def test_search_games_by_genre_none_found(in_memory_repo):
+    games = in_memory_repo.search_games_by_genre('Lots of Fun')
+    assert games == []
+
+def test_search_games_by_genre_case_insensitive(in_memory_repo):
+    games = in_memory_repo.search_games_by_genre('Indie')
+    assert games == in_memory_repo.search_games_by_genre('indie')
+    assert games == in_memory_repo.search_games_by_genre('INDIE')
+    assert games == in_memory_repo.search_games_by_genre('InDiE')
+
+def test_search_games_by_title(in_memory_repo):
+    expected = [ Game(435790, '10 Second Ninja X') ]
+    games = in_memory_repo.search_games_by_title('Ninja')
+    assert games == expected
+
+def test_search_games_by_title_none_found(in_memory_repo):
+    games = in_memory_repo.search_games_by_title('Lots of Fun')
+    assert games == []
+
+def test_search_games_by_title_case_insensitive(in_memory_repo):
+    games = in_memory_repo.search_games_by_title('Ninja')
+    assert games == in_memory_repo.search_games_by_title('NINJA')
+    assert games == in_memory_repo.search_games_by_title('ninja')
+    assert games == in_memory_repo.search_games_by_title('NiNjA')
+
+def test_search_games_by_publisher(in_memory_repo):
+    expected = [ Game(435790, '10 Second Ninja X') ]
+    games = in_memory_repo.search_games_by_publisher('Curve Games')
+    assert games == expected
+
+def test_search_games_by_publisher_none_found(in_memory_repo):
+    games = in_memory_repo.search_games_by_publisher('Lots of Fun')
+    assert games == []
+
+def test_search_games_by_publisher_case_insensitive(in_memory_repo):
+    games = in_memory_repo.search_games_by_publisher('Curve Games')
+    assert games == in_memory_repo.search_games_by_publisher('CURVE GAMES')
+    assert games == in_memory_repo.search_games_by_publisher('curve games')
+    assert games == in_memory_repo.search_games_by_publisher('CuRvE gAmEs')
