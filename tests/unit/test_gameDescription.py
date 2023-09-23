@@ -5,7 +5,7 @@ from games.domainmodel.model import User
 from pathlib import Path
 import pytest
 
-TEST_DATA_PATH = Path('tests/data/games.csv')
+TEST_DATA_PATH = Path('tests/data')
 
 class TestGameDescription:
     @pytest.fixture
