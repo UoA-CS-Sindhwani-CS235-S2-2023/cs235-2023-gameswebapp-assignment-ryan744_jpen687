@@ -117,8 +117,7 @@ def load_users(data_path: Path, repo: MemoryRepository):
         users[data_row[0]] = user
     return users
 
-
-def populate(data_path: Path, repo: MemoryRepository):
+def load_games(data_path: Path, repo: MemoryRepository):
     reader = GameFileCSVReader(Path(data_path) / 'games.csv')
     reader.read_csv_file()
     for game in reader.dataset_of_games:
@@ -127,5 +126,9 @@ def populate(data_path: Path, repo: MemoryRepository):
         repo.add_publisher(publisher)
     for genre in reader.dataset_of_genres:
         repo.add_genre(genre)
+
+
+def populate(data_path: Path, repo: MemoryRepository):
+    load_games(data_path, repo)
 
     load_users(data_path, repo);
