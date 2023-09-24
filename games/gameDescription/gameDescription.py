@@ -20,6 +20,7 @@ def gameDescription(gameid, rating=None, comment=None):
         is_favourite_game = False
 
     reviews_of_this_game = services.display_all_reviews_for_a_game(id, repo.repo_instance)
+    average_rating_of_game = services.average_rating_for_a_game(id, repo.repo_instance)
 
     return render_template('gameDescription.html',
                            game=game,
@@ -28,6 +29,7 @@ def gameDescription(gameid, rating=None, comment=None):
                            is_favourite_game=is_favourite_game,
                            logged_in_username=logged_in_username(),
                            all_reviews=reviews_of_this_game,
+                           avg_rating=average_rating_of_game
                            )
 
 

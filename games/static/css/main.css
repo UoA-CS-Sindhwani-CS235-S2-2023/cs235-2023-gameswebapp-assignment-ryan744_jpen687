@@ -309,3 +309,10 @@ img {
     font-size: 14px;
     margin-top: 4px;
 }
+
+
+.float-child.comment {
+    width: 50%;
+    float: left;
+    padding: 20px;
+}

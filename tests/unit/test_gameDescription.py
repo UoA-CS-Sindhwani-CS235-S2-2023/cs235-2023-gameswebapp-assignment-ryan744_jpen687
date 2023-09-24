@@ -1,5 +1,5 @@
 from games.gameDescription.services import toggle_favourite_game_for_user, is_favourite_game, \
-    display_all_reviews_for_a_game, adding_a_new_review_for_game
+    display_all_reviews_for_a_game, adding_a_new_review_for_game, average_rating_for_a_game
 
 
 def test_add_favourite_game_for_user(in_memory_repo):
@@ -37,3 +37,11 @@ def test_add_new_review_on_page_and_displayed_correctly(in_memory_repo):
     assert len(display_all_reviews_for_a_game(1304320, in_memory_repo)) == 2  # two diff reviews for this game
     assert len(display_all_reviews_for_a_game(1, in_memory_repo)) == 0  # no review for this game
     assert len(display_all_reviews_for_a_game(418650, in_memory_repo)) == 1  # one review for this game
+
+
+def test_average_rating_displayed_correctly(in_memory_repo):
+    adding_a_new_review_for_game(1304320, "ray", 5, "great game released", in_memory_repo)
+    adding_a_new_review_for_game(1304320, "jason", 1, "could have been better", in_memory_repo)
+    adding_a_new_review_for_game(1304320, "jason", 5, "best game, would recommend", in_memory_repo)
+
+    assert average_rating_for_a_game(1304320, in_memory_repo) == 3

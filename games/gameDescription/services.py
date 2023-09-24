@@ -32,3 +32,19 @@ def adding_a_new_review_for_game(gameID, username, new_rating, new_comment, repo
         new_review = Review(user, game, new_rating, new_comment)
         game.reviews.append(new_review)
         user.add_review(new_review)  # linking the user object to the review object
+
+
+def average_rating_for_a_game(gameID, repo: AbstractRepository):
+    average_rating_displayed = 0
+    if gameID is not None:
+        game = repo.get_game(gameID)
+        total = 0
+        if len(game.reviews) == 0:
+            return average_rating_displayed
+
+        if len(game.reviews) > 0:
+            for reviews in game.reviews:
+                total += reviews.rating
+            average_rating_displayed = total // len(game.reviews)
+
+    return average_rating_displayed

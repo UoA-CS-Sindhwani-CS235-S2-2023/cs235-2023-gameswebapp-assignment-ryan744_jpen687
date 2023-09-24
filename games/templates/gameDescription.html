@@ -20,14 +20,19 @@
       <p><i style="color: #45A29E">About:</i> {{ game.description }} </p>
   </div>
 
-    <p> <h2>Reviews:</h2>
+    <h2>Reviews:</h2>
     {% for review in game.reviews %}
         <h3><i>''{{review.comment}}''</i> by {{review.user.username}} Rating: <i>{{review.rating}}</i></h3>
     {% endfor %}
+
+    <p style="border-width:2px; border-bottom:solid; border-color:#ffb6c1; padding: 1em;">
+        <b>Average rating from all reviews: {{ avg_rating }}</b>
     </p>
 
 
-    <form action ="/add_review" method="POST">
+  <div class="float-child">
+    <div class="comment">
+        <form action ="/add_review" method="POST">
         <input type="hidden" name="gameId" value="{{ game.game_id }}">
         <label for="rating">Rating</label>
         <select name="rating" id="rating">
@@ -48,6 +53,10 @@
     </div>
 
     </form>
+    </div>
+  </div>
+
+
 
    </main>
 {% endblock %}
