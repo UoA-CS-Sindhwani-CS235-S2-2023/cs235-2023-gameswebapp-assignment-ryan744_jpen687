@@ -22,7 +22,7 @@
 
     <p> <h2>Reviews:</h2>
     {% for review in game.reviews %}
-        <h3>{{review.comment}} by {{review.user.username}} Rating: {{review.rating}}</h3>
+        <h3><i>''{{review.comment}}''</i> by {{review.user.username}} Rating: <i>{{review.rating}}</i></h3>
     {% endfor %}
     </p>
 
