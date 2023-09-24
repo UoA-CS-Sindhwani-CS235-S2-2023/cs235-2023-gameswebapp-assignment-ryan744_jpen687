@@ -43,5 +43,6 @@ def test_average_rating_displayed_correctly(in_memory_repo):
     adding_a_new_review_for_game(1304320, "ray", 5, "great game released", in_memory_repo)
     adding_a_new_review_for_game(1304320, "jason", 1, "could have been better", in_memory_repo)
     adding_a_new_review_for_game(1304320, "jason", 5, "best game, would recommend", in_memory_repo)
+    adding_a_new_review_for_game(1, "jason", 5, "best game, would recommend", in_memory_repo)
 
-    assert average_rating_for_a_game(1304320, in_memory_repo) == 3
+    assert average_rating_for_a_game(1304320, in_memory_repo) == 3 # test that only the correct ratings are collected from repo

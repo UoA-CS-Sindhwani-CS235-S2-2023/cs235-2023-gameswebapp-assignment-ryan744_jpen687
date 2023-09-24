@@ -272,7 +272,6 @@ def test_comment_can_be_added_when_logged_in(client, auth):
     new_response = client.get('/my-profile')
 
     assert response.status_code == 302  # check that the user goes back to the same page after commenting
-    #  assert b'10 SECOND NINJA X' in response.data
 
     # Check that the game is in users reviewed list (in their profile page)
     assert new_response.status_code == 200
@@ -284,5 +283,5 @@ def test_login_is_required_to_comment(client):
         '/add_review',
         data={'gameId': 435790, 'rating': 3, 'comment': 'Overall, this is a solid game with simple graphics and a '
                                                         'compelling story.'}
-    )
+    )  # new review added without logging in
     assert response.headers['Location'] == '/authentication/login'
