@@ -77,6 +77,8 @@ class MemoryRepository(AbstractRepository):
 
     def get_users_favourite_games(self, username):
         user = self.get_user(username)
+        if user is None:
+            return []
         return user.favourite_games
 
     def add_users_favourite_game(self, username, game_id):
