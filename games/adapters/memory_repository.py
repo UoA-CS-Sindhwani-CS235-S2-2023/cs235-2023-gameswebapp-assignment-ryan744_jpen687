@@ -90,25 +90,29 @@ class MemoryRepository(AbstractRepository):
         user = self.get_user(username)
         game = self.get_game(game_id)
         user.remove_favourite_game(game)
-    
+
     def search_games_by_genre(self, search_term):
         def filter_fn(game):
             genre_names = map(lambda x: x.genre_name.lower(), game.genres)
             if search_term.lower() in genre_names:
                 return True
+
         return list(filter(filter_fn, self.__games))
-  
+
     def search_games_by_title(self, search_term):
-      def filter_fn(game):
-          if search_term.lower() in game.title.lower():
-            return True
-      return list(filter(filter_fn, self.__games))
+        def filter_fn(game):
+            if search_term.lower() in game.title.lower():
+                return True
+
+        return list(filter(filter_fn, self.__games))
 
     def search_games_by_publisher(self, search_term):
-      def filter_fn(game):
-          if search_term.lower() in game.publisher.publisher_name.lower():
-            return True
-      return list(filter(filter_fn, self.__games))
+        def filter_fn(game):
+            if search_term.lower() in game.publisher.publisher_name.lower():
+                return True
+
+        return list(filter(filter_fn, self.__games))
+
 
 def read_csv_file(filename: str):
     with open(filename, encoding='utf-8-sig') as infile:
@@ -124,7 +128,7 @@ def read_csv_file(filename: str):
             yield row
 
 
-def load_users(data_path: Path, repo: MemoryRepository):
+def load_users(data_path: Path, repo: AbstractRepository):
     users = dict()
 
     users_filename = str(Path(data_path) / "users.csv")
@@ -137,7 +141,8 @@ def load_users(data_path: Path, repo: MemoryRepository):
         users[data_row[0]] = user
     return users
 
-def load_games(data_path: Path, repo: MemoryRepository):
+
+def load_games(data_path: Path, repo: AbstractRepository):
     reader = GameFileCSVReader(Path(data_path) / 'games.csv')
     reader.read_csv_file()
     for game in reader.dataset_of_games:
@@ -148,7 +153,7 @@ def load_games(data_path: Path, repo: MemoryRepository):
         repo.add_genre(genre)
 
 
-def populate(data_path: Path, repo: MemoryRepository):
+def populate(data_path: Path, repo: AbstractRepository):
     load_games(data_path, repo)
 
     load_users(data_path, repo)
