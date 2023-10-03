@@ -74,12 +74,13 @@ class MemoryRepository(AbstractRepository):
 
     def get_reviews(self):
         return self.__reviews
-
-    def get_users_favourite_games(self, username):
-        user = self.get_user(username)
-        if user is None:
-            return []
-        return user.favourite_games
+  
+    def get_users_favourite_game_ids(self, username):
+      user = self.get_user(username)
+      if user is None:
+          return []
+      get_game_ids = lambda games: [game.game_id for game in games]
+      return get_game_ids(user.favourite_games)
 
     def add_users_favourite_game(self, username, game_id):
         user = self.get_user(username)

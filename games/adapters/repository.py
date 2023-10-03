@@ -89,11 +89,6 @@ class AbstractRepository(abc.ABC):
     def get_reviews(self):
         """ Returns the Reviews stored in the repository. """
         raise NotImplementedError
-    
-    @abc.abstractmethod
-    def get_users_favourite_games(self, username):
-        """ Returns the favourite games for a user stored in the repository. """
-        raise NotImplementedError
   
     @abc.abstractmethod
     def add_users_favourite_game(self, username, game_id):
@@ -118,4 +113,9 @@ class AbstractRepository(abc.ABC):
     @abc.abstractmethod
     def search_games_by_publisher(self, search_term):
         """ Find games with a publisher that matches the search term """
+        raise NotImplementedError
+    
+    @abc.abstractmethod
+    def get_users_favourite_game_ids(self, username):
+        """ Find favourites games ids for a user """
         raise NotImplementedError

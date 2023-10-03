@@ -43,23 +43,21 @@ reviews_table = Table(
     Column('review_id', Integer, primary_key=True, autoincrement=True),  # do i need this review_ID?
     Column('review_comment', String(255), nullable=False),
     Column('review_rating', Integer, nullable=False),
-    Column('review_by_user', ForeignKey('users.user_id')),
+    Column('review_by_user', ForeignKey('users.username')),
     Column('game_reviewed', ForeignKey('games.game_id'))
 )
 
 users_table = Table(
     'users', metadata,
-    Column('user_id', Integer, primary_key=True, autoincrement=True),
-    Column('username', String(64), unique=True),
+    Column('username', String(64), primary_key=True),
     Column('password', String(255), nullable=False),
 )
 
-wishlist_table = Table(
-    'wishlist', metadata,
-    Column('user_id', ForeignKey('users.user_id')),
-    Column('game_id', ForeignKey('games.game_id'))
+favourites_table = Table(
+    'favourites', metadata,
+    Column('username', ForeignKey('users.username'), primary_key=True),
+    Column('game_id', ForeignKey('games.game_id'), primary_key=True)
 )
-
 
 def map_model_to_tables():
     mapper(Publisher, publishers_table, properties={
@@ -88,6 +86,7 @@ def map_model_to_tables():
     mapper(User, users_table, properties={
         '_User__username': users_table.c.username,
         '_User__password': users_table.c.password,
+        '_User__favourite_games': relationship(Game, secondary=favourites_table)
     })
 
     mapper(Review, reviews_table, properties={

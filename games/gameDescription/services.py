@@ -4,16 +4,16 @@ from games.domainmodel.model import Review
 
 def toggle_favourite_game_for_user(game_id, username, repo: AbstractRepository):
     game = repo.get_game(game_id)
-    favourite_games = repo.get_users_favourite_games(username)
-    if game in favourite_games:
+    favourite_game_ids = repo.get_users_favourite_game_ids(username)
+    if game.game_id in favourite_game_ids:
         repo.remove_users_favourite_game(username, game_id)
     else:
         repo.add_users_favourite_game(username, game_id)
 
 
 def is_favourite_game(game, username, repo: AbstractRepository):
-    favourite_games = repo.get_users_favourite_games(username)
-    if game in favourite_games:
+    favourite_game_ids = repo.get_users_favourite_game_ids(username)
+    if game.game_id in favourite_game_ids:
         return True
     else:
         return False

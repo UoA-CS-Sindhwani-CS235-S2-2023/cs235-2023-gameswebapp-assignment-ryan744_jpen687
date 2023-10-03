@@ -51,7 +51,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def reset_session(self):
         self._session_cm.reset_session()
 
-    # region Game_data
     def get_games(self) -> List[Game]:
         games = self._session_cm.session.query(Game).order_by(Game._Game__game_id).all()
         return games
@@ -81,9 +80,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         total_games = self._session_cm.session.query(Game).count()
         return total_games
 
-    # endregion
-
-    # region Publisher data
     def get_publishers(self) -> List[Publisher]:
         pass
 
@@ -125,10 +121,9 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         pass
 
     def add_user(self, user: User):
-        pass
-
-    def add_users_favourite_game(self, username, game_id):
-        pass
+        with self._session_cm as scm:
+            scm.session.merge(user)
+            scm.commit()
 
     def get_all_games(self):
         pass
@@ -142,14 +137,36 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_reviews(self):
         pass
 
-    def get_user(self, username) -> User:
-        pass
+    def add_users_favourite_game(self, username, game_id):
+        user = self.get_user(username)
+        game = self.get_game(game_id)
+        user.add_favourite_game(game)
+        with self._session_cm as scm:
+            scm.session.merge(user)
+            scm.commit()
 
-    def get_users_favourite_games(self, username):
-        pass
+    def get_user(self, username) -> User:
+        user = None
+        try:
+            user = self._session_cm.session.query(
+                User).filter(User._User__username == username).one()
+        except NoResultFound:
+            print(f'User {username} was not found')
+
+        return user
+
+    def get_users_favourite_game_ids(self, username):
+        rows = self._session_cm.session.execute('SELECT game_id FROM favourites WHERE username = :username', {'username': username}).all()
+        game_ids = [game_id[0] for game_id in rows]
+        return game_ids
 
     def remove_users_favourite_game(self, username, game_id):
-        pass
+        user = self.get_user(username)
+        game = self.get_game(game_id)
+        user.remove_favourite_game(game)
+        with self._session_cm as scm:
+            scm.session.merge(user)
+            scm.commit()
 
     def search_games_by_genre(self, search_term):
         pass

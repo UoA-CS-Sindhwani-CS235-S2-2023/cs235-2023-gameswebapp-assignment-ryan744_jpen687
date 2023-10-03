@@ -52,8 +52,8 @@ def test_add_users_favourite_game(in_memory_repo):
 
     in_memory_repo.add_users_favourite_game("Xi", 1)
 
-    favourite_games = in_memory_repo.get_users_favourite_games("Xi")
-    assert favourite_games == [game]
+    favourite_games = in_memory_repo.get_users_favourite_game_ids("Xi")
+    assert favourite_games == [1]
 
 
 def test_remove_users_favourite_game(in_memory_repo):
@@ -65,7 +65,7 @@ def test_remove_users_favourite_game(in_memory_repo):
 
     in_memory_repo.remove_users_favourite_game("Xi", 1)
 
-    favourite_games = in_memory_repo.get_users_favourite_games("Xi")
+    favourite_games = in_memory_repo.get_users_favourite_game_ids("Xi")
     assert favourite_games == []
 
 
