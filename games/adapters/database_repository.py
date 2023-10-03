@@ -100,9 +100,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
     def get_number_of_publishers(self) -> int:
         pass
-    # endregion
 
-    # region Genre_data
+
     def get_genres(self) -> List[Genre]:
         genres = self._session_cm.session.query(Genre).order_by(Genre._Genre__genre_name).all()
         return genres
@@ -118,7 +117,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
                 scm.session.merge(genre)
             scm.commit()
 
-    # endregion
 
     def search_games_by_title(self, title_string: str) -> List[Game]:
         pass

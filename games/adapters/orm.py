@@ -3,7 +3,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import mapper, relationship
 
-from games.domainmodel.model import Game, Publisher, Genre
+from games.domainmodel.model import Game, Publisher, Genre, User, Review, Wishlist
 
 # global variable giving access to the MetaData (schema) information of the database
 metadata = MetaData()
@@ -29,8 +29,35 @@ games_table = Table(
 
 genres_table = Table(
     'genres', metadata,
-    # For genre again we only have name.
-    Column('genre_name', String(64), primary_key=True, nullable=False)
+    Column('genre_name',String(64),  primary_key=True, nullable=False)
+)
+
+game_genres_table = Table(
+    'game_genres', metadata,
+    Column('game_id', ForeignKey('games.game_id')),
+    Column('genre_id', ForeignKey('genres.genre_name'))
+)
+
+reviews_table = Table(
+    'reviews', metadata,
+    Column('review_id', Integer, primary_key=True, autoincrement=True),  # do i need this review_ID?
+    Column('review_comment', String(255), nullable=False),
+    Column('review_rating', Integer, nullable=False),
+    Column('review_by_user', ForeignKey('users.user_id')),
+    Column('game_reviewed', ForeignKey('games.game_id'))
+)
+
+users_table = Table(
+    'users', metadata,
+    Column('user_id', Integer, primary_key=True, autoincrement=True),
+    Column('username', String(64), unique=True),
+    Column('password', String(255), nullable=False),
+)
+
+wishlist_table = Table(
+    'wishlist', metadata,
+    Column('user_id', ForeignKey('users.user_id')),
+    Column('game_id', ForeignKey('games.game_id'))
 )
 
 
@@ -47,9 +74,27 @@ def map_model_to_tables():
         '_Game__description': games_table.c.game_description,
         '_Game__image_url': games_table.c.game_image_url,
         '_Game__website_url': games_table.c.game_website_url,
-        '_Game__publisher': relationship(Publisher)
+        '_Game__publisher': relationship(Publisher),
+        '_Game__genres': relationship(Genre, secondary=game_genres_table,
+                                      back_populates='_Genre__genre_to_game'),
     })
 
     mapper(Genre, genres_table, properties={
         '_Genre__genre_name': genres_table.c.genre_name,
+        '_Genre__genre_to_game': relationship(Game, secondary=game_genres_table,
+                                              back_populates='_Game__genres')
     })
+
+    mapper(User, users_table, properties={
+        '_User__username': users_table.c.username,
+        '_User__password': users_table.c.password,
+    })
+
+    mapper(Review, reviews_table, properties={
+        '_Review__comment': reviews_table.c.review_comment,
+        '_Review__rating': reviews_table.c.review_rating,
+        #'_Review__user': relationship(User, back_populates='_User__reviews'),
+        #'_Review__game': relationship(Game, back_populates='_Game__reviews'),
+    })
+
+
