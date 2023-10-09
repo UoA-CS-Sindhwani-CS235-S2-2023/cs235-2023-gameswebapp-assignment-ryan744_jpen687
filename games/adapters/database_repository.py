@@ -59,7 +59,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         game = None
         try:
             game = self._session_cm.session.query(
-                Game).filter(Game._Game__game_id == game_id).one()
+                Game).filter(Game.game_id == game_id).one()
         except NoResultFound:
             print(f'Game {game_id} was not found')
 
@@ -99,7 +99,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
 
     def get_genres(self) -> List[Genre]:
-        genres = self._session_cm.session.query(Genre).order_by(Genre._Genre__genre_name).all()
+        genres = self._session_cm.session.query(Genre).order_by(Genre.genre_name).all()
         return genres
 
     def add_genre(self, genre: Genre):
@@ -117,12 +117,17 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def search_games_by_title(self, title_string: str) -> List[Game]:
         pass
 
-    def add_review(self, new_review: Review):
-        pass
+    def add_review(self, game_id: int, user: User, rating: int, comment: str):
+        game = self.get_game(game_id)
+        if game is not None:
+            review = Review(user, game, rating, comment)
+            with self._session_cm as scm:
+                scm.session.merge(review)
+                scm.commit()
 
     def add_user(self, user: User):
         with self._session_cm as scm:
-            scm.session.merge(user)
+            scm.session.add(user)
             scm.commit()
 
     def get_all_games(self):
@@ -134,8 +139,9 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_last_game(self):
         pass
 
-    def get_reviews(self):
-        pass
+    def get_reviews(self, game) -> List[Review]:
+        reviews = self._session_cm.session.query(Review).filter(Review.game == game).all()
+        return reviews
 
     def add_users_favourite_game(self, username, game_id):
         user = self.get_user(username)
@@ -149,7 +155,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         user = None
         try:
             user = self._session_cm.session.query(
-                User).filter(User._User__username == username).one()
+                User).filter(User.username == username).one()
         except NoResultFound:
             print(f'User {username} was not found')
 

@@ -278,6 +278,7 @@ class User:
 
 
 class Review:
+
     def __init__(self, user: User, game: Game, rating: int, comment: str):
 
         if not isinstance(user, User):

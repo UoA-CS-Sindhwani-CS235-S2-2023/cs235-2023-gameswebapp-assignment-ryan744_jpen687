@@ -27,7 +27,6 @@ def register():
         try:
             services.add_user(form.username.data, form.password.data, repo.repo_instance)
 
-
             # All is well, redirect the user to the login page.
             return redirect(url_for('authentication_bp.login'))
         except services.NameNotUniqueException:
