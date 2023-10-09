@@ -40,15 +40,18 @@ game_genres_table = Table(
 
 reviews_table = Table(
     'reviews', metadata,
+    Column('review_id', Integer, primary_key=True, autoincrement=True),
     Column('review_comment', String(255), nullable=False),
     Column('review_rating', Integer, nullable=False),
-    Column('review_by_user', ForeignKey('users.username'), primary_key=True),
-    Column('game_reviewed', ForeignKey('games.game_id'), primary_key=True)
+    Column('review_by_user', ForeignKey('users.user_id')),
+    Column('game_reviewed', ForeignKey('games.game_id')),
 )
+
 
 users_table = Table(
     'users', metadata,
-    Column('username', String(64), primary_key=True),
+    Column('user_id', Integer,primary_key=True, autoincrement=True),
+    Column('username', String(64), unique=True, nullable=False),
     Column('password', String(255), nullable=False),
 )
 
@@ -84,6 +87,7 @@ def map_model_to_tables():
     })
 
     mapper(User, users_table, properties={
+        'User__user_id': users_table.c.user_id,
         '_User__username': users_table.c.username,
         '_User__password': users_table.c.password,
         '_User__favourite_games': relationship(Game, secondary=favourites_table),
@@ -93,6 +97,6 @@ def map_model_to_tables():
     mapper(Review, reviews_table, properties={
         '_Review__comment': reviews_table.c.review_comment,
         '_Review__rating': reviews_table.c.review_rating,
+        '_Review__user': relationship(User, back_populates='_User__reviews', overlaps="_Review__username"),
     })
-
 
