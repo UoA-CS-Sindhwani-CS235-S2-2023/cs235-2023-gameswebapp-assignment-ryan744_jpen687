@@ -10,7 +10,6 @@ metadata = MetaData()
 
 publishers_table = Table(
     'publishers', metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True),
     # We only want to maintain those attributes that are in our domain model
     # For publisher, we only have name.
     Column('name', String(255), primary_key=True)  # nullable=False, unique=True)
