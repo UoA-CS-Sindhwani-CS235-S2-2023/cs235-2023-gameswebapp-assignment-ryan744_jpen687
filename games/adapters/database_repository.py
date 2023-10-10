@@ -177,7 +177,9 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         return games
 
     def search_games_by_publisher(self, search_term):
-        pass
+        games = self._session_cm.session.query(Game).filter(Game.publisher_name.ilike('%'+search_term+'%'))
+        return games
     
     def search_games_by_title(self, title_string: str) -> List[Game]:
-        pass
+        games = self._session_cm.session.query(Game).filter(Game._Game__game_title.ilike('%'+title_string+'%'))
+        return games
