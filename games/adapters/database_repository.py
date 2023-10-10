@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from games.adapters.repository import AbstractRepository
 from games.domainmodel.model import Game, Publisher, Genre, User, Review
+from games.adapters.orm import game_genres_table, games_table, genres_table
 
 
 class SessionContextManager:
@@ -59,7 +60,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         game = None
         try:
             game = self._session_cm.session.query(
-                Game).filter(Game.game_id == game_id).one()
+                Game).filter(Game._Game__game_id == game_id).one()
         except NoResultFound:
             print(f'Game {game_id} was not found')
 
@@ -67,7 +68,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
     def add_game(self, game: Game):
         with self._session_cm as scm:
-            scm.session.merge(game)
+            scm.session.add(game)
             scm.commit()
 
     def add_multiple_games(self, games: List[Game]):
@@ -85,7 +86,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
     def add_publisher(self, publisher: Publisher):
         with self._session_cm as scm:
-            scm.session.merge(publisher)
+            scm.session.add(publisher)
             scm.commit()
 
     def add_multiple_publishers(self, publishers: List[Publisher]):
@@ -99,12 +100,12 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
 
     def get_genres(self) -> List[Genre]:
-        genres = self._session_cm.session.query(Genre).order_by(Genre.genre_name).all()
+        genres = self._session_cm.session.query(Genre).order_by(Genre._Genre__genre_name).all()
         return genres
 
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
-            scm.session.merge(genre)
+            scm.session.add(genre)
             scm.commit()
 
     def add_multiple_genres(self, genres: List[Genre]):
@@ -112,10 +113,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             for genre in genres:
                 scm.session.merge(genre)
             scm.commit()
-
-
-    def search_games_by_title(self, title_string: str) -> List[Game]:
-        pass
 
     def add_review(self, game_id: int, user: User, rating: int, comment: str):
         game = self.get_game(game_id)
@@ -131,7 +128,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.commit()
 
     def get_all_games(self):
-        pass
+        games = self._session_cm.session.query(Game).order_by(Game._Game__game_title).all()
+        return games
 
     def get_first_game(self):
         pass
@@ -155,7 +153,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         user = None
         try:
             user = self._session_cm.session.query(
-                User).filter(User.username == username).one()
+                User).filter(User._User__username == username).one()
         except NoResultFound:
             print(f'User {username} was not found')
 
@@ -175,7 +173,11 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.commit()
 
     def search_games_by_genre(self, search_term):
-        pass
+        games = self._session_cm.session.query(Game).join(game_genres_table).join(genres_table).filter(Genre._Genre__genre_name == search_term.title()).order_by(Game._Game__game_title).all()
+        return games
 
     def search_games_by_publisher(self, search_term):
+        pass
+    
+    def search_games_by_title(self, title_string: str) -> List[Game]:
         pass
