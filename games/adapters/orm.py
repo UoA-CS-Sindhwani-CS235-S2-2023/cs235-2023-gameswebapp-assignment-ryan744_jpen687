@@ -10,9 +10,10 @@ metadata = MetaData()
 
 publishers_table = Table(
     'publishers', metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
     # We only want to maintain those attributes that are in our domain model
     # For publisher, we only have name.
-    Column('name', String(255), primary_key=True)  # nullable=False, unique=True)
+    Column('name', String(255))  # nullable=False, unique=True)
 )
 
 games_table = Table(
@@ -29,14 +30,15 @@ games_table = Table(
 
 genres_table = Table(
     'genres', metadata,
-    Column('genre_name',String(64),  primary_key=True, nullable=False)
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('genre_name', String(64), nullable=False),
 )
 
 game_genres_table = Table(
     'game_genres', metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('game_id', ForeignKey('games.game_id')),
-    Column('genre_id', ForeignKey('genres.genre_name'))
+    Column('genre_name', ForeignKey('genres.id'))
 )
 
 reviews_table = Table(
