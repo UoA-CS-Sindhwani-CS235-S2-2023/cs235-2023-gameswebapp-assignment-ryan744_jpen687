@@ -38,12 +38,12 @@ def get_batch_games(repo: AbstractRepository):
 
 def search_games_by_category(search_term, search_category, repo):
     if search_category == 'genre':
-        batch_of_games = repo.search_games_by_genre(search_term);
+        batch_of_games = repo.search_games_by_genre(search_term)
     elif search_category == 'title':
-        batch_of_games = repo.search_games_by_title(search_term);
+        batch_of_games = repo.search_games_by_title(search_term)
     elif search_category == 'publisher':
-        batch_of_games = repo.search_games_by_publisher(search_term);
-    return multi_games_to_dict(batch_of_games);
+        batch_of_games = repo.search_games_by_publisher(search_term)
+    return multi_games_to_dict(batch_of_games)
 
 def get_games_by_genre(genre_name, repo):
-    return multi_games_to_dict(repo.search_games_by_genre(genre_name));
+    return multi_games_to_dict(repo.search_games_by_genre(genre_name))

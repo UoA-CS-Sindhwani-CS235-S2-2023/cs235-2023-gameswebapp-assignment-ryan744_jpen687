@@ -52,7 +52,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         self._session_cm.reset_session()
 
     def get_games(self) -> List[Game]:
-        games = self._session_cm.session.query(Game).order_by(Game._Game__game_id).all()
+        games = self._session_cm.session.query(Game).all()
         return games
 
     def get_game(self, game_id: int) -> Game:
@@ -99,7 +99,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
 
     def get_genres(self) -> List[Genre]:
-        genres = self._session_cm.session.query(Genre).order_by(Genre.genre_name).all()
+        genres = self._session_cm.session.query(Genre).all()
         return genres
 
     def add_genre(self, genre: Genre):
@@ -131,7 +131,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.commit()
 
     def get_all_games(self):
-        pass
+        games = self._session_cm.session.query(Game).all()
+        return games
 
     def get_first_game(self):
         pass

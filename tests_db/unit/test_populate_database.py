@@ -6,7 +6,7 @@ from games.adapters.orm import metadata
 def test_database_populate_inspect_table_names(database_engine):
     # Get table information
     inspector = inspect(database_engine)
-    assert inspector.get_table_names() == ['games', 'genres', 'publishers', 'reviews', 'users','wishlist']
+    assert inspector.get_table_names() == ['favourites', 'game_genres', 'games', 'genres', 'publishers', 'reviews', 'users']
 
 
 def test_database_populate_select_all_games(database_engine):
