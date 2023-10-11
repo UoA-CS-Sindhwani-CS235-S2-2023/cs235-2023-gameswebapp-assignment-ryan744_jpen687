@@ -71,16 +71,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(game)
             scm.commit()
 
-    def add_multiple_games(self, games: List[Game]):
-        with self._session_cm as scm:
-            for game in games:
-                scm.session.merge(game)
-            scm.commit()
-
-    def get_number_of_games(self):
-        total_games = self._session_cm.session.query(Game).count()
-        return total_games
-
     def get_publishers(self) -> List[Publisher]:
         pass
 
@@ -89,16 +79,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(publisher)
             scm.commit()
 
-    def add_multiple_publishers(self, publishers: List[Publisher]):
-        with self._session_cm as scm:
-            for publisher in publishers:
-                scm.session.merge(publisher)
-            scm.commit()
-
-    def get_number_of_publishers(self) -> int:
-        pass
-
-
     def get_genres(self) -> List[Genre]:
         genres = self._session_cm.session.query(Genre).order_by(Genre._Genre__genre_name).all()
         return genres
@@ -106,12 +86,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def add_genre(self, genre: Genre):
         with self._session_cm as scm:
             scm.session.add(genre)
-            scm.commit()
-
-    def add_multiple_genres(self, genres: List[Genre]):
-        with self._session_cm as scm:
-            for genre in genres:
-                scm.session.merge(genre)
             scm.commit()
 
     def add_review(self, game_id: int, user: User, rating: int, comment: str):
@@ -130,12 +104,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_all_games(self):
         games = self._session_cm.session.query(Game).order_by(Game._Game__game_title).all()
         return games
-
-    def get_first_game(self):
-        pass
-
-    def get_last_game(self):
-        pass
 
     def get_reviews(self, game) -> List[Review]:
         reviews = self._session_cm.session.query(Review).filter(Review.game == game).all()

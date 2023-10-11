@@ -66,16 +66,6 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_first_game(self):
-        """Return the first Game Object"""
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def get_last_game(self):
-        """Return thr last Game Object"""
-        raise NotImplementedError
-
-    @abc.abstractmethod
     def add_review(self, new_review: Review):
         """ Adds a review (comment + rating) to the repository.
 
