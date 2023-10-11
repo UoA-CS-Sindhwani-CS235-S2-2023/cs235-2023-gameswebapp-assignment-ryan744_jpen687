@@ -49,20 +49,6 @@ class MemoryRepository(AbstractRepository):
                 return game
         return None
 
-    def get_first_game(self):
-        game = None
-
-        if len(self.__games) > 0:
-            game = self.__games[0]
-        return game
-
-    def get_last_game(self):
-        game = None
-
-        if len(self.__games) > 0:
-            game = self.__games[-1]
-        return game
-
     def get_all_games(self):
 
         # Fetch the list of Games in Dictionary form.
