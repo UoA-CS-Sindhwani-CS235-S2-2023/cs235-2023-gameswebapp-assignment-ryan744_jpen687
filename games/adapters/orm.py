@@ -47,7 +47,7 @@ reviews_table = Table(
     Column('review_comment', String(255), nullable=False),
     Column('review_rating', Integer, nullable=False),
     Column('review_by_user', ForeignKey('users.user_id')),
-    Column('game_reviewed', ForeignKey('games.game_id')),
+    Column('game_reviewed', ForeignKey('games.game_id'))
 )
 
 
@@ -90,16 +90,17 @@ def map_model_to_tables():
     })
 
     mapper(User, users_table, properties={
-        'User__user_id': users_table.c.user_id,
+        '_User__user_id': users_table.c.user_id,
         '_User__username': users_table.c.username,
         '_User__password': users_table.c.password,
         '_User__favourite_games': relationship(Game, secondary=favourites_table),
-        '_User__reviews': relationship(Review, backref='_Review__username')
+        '_User__reviews': relationship(Review, back_populates='_Review__user')
     })
 
     mapper(Review, reviews_table, properties={
+        '_Review__review_id': reviews_table.c.review_id,
         '_Review__comment': reviews_table.c.review_comment,
         '_Review__rating': reviews_table.c.review_rating,
-        '_Review__user': relationship(User, back_populates='_User__reviews', overlaps="_Review__username"),
+        '_Review__user': relationship(User, back_populates='_User__reviews'),
     })
 
