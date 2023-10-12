@@ -46,8 +46,8 @@ reviews_table = Table(
     Column('review_id', Integer, primary_key=True, autoincrement=True),
     Column('review_comment', String(255), nullable=False),
     Column('review_rating', Integer, nullable=False),
-    Column('review_by_user', ForeignKey('users.user_id')),
-    Column('game_reviewed', ForeignKey('games.game_id'))
+    Column('user_id', ForeignKey('users.user_id')),
+    Column('game_id', ForeignKey('games.game_id'))
 )
 
 
@@ -80,7 +80,7 @@ def map_model_to_tables():
         '_Game__publisher': relationship(Publisher),
         '_Game__genres': relationship(Genre, secondary=game_genres_table,
                                       back_populates='_Genre__genre_to_game'),
-        '_Game__reviews': relationship(Review, backref='_Review__game_id')
+        '_Game__reviews': relationship(Review, back_populates='_Review__game')
     })
 
     mapper(Genre, genres_table, properties={
@@ -102,5 +102,6 @@ def map_model_to_tables():
         '_Review__comment': reviews_table.c.review_comment,
         '_Review__rating': reviews_table.c.review_rating,
         '_Review__user': relationship(User, back_populates='_User__reviews'),
+        '_Review__game': relationship(Game, back_populates='_Game__reviews'),
     })
 
