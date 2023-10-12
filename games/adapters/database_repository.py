@@ -6,7 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from games.adapters.repository import AbstractRepository
 from games.domainmodel.model import Game, Publisher, Genre, User, Review
-from games.adapters.orm import game_genres_table, games_table, genres_table
+from games.adapters.orm import game_genres_table, games_table, genres_table, reviews_table
 
 
 class SessionContextManager:
@@ -88,13 +88,12 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(genre)
             scm.commit()
 
-    def add_review(self, game_id: int, user: User, rating: int, comment: str):
-        game = self.get_game(game_id)
-        if game is not None:
-            review = Review(user, game, rating, comment)
-            with self._session_cm as scm:
-                scm.session.merge(review)
-                scm.commit()
+    def add_review(self, username: User, review: Review):
+        # user = self.get_user(username)
+        # user.add_review(review)
+        with self._session_cm as scm:
+            scm.session.merge(review)
+            scm.commit()
 
     def add_user(self, user: User):
         with self._session_cm as scm:
@@ -105,9 +104,17 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         games = self._session_cm.session.query(Game).order_by(Game._Game__game_title).all()
         return games
 
-    def get_reviews(self, game) -> List[Review]:
-        reviews = self._session_cm.session.query(Review).filter(Review.game == game).all()
+    def get_reviews(self, game: Game) -> List[Review]:
+        reviews = self._session_cm.session.query(Review).filter(Review._Review__game == game).all()
         return reviews
+
+    # def get_reviews_by_user(self, username: str) -> List[Review]:
+    #     user = self.get_user(username)
+    #     if user is None:
+    #         return []
+    #     reviews = self._session_cm.session.query(Review).filter(Review._Review__user == user).all()
+    #     return reviews
+
 
     def add_users_favourite_game(self, username, game_id):
         user = self.get_user(username)
