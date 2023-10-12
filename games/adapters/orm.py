@@ -30,15 +30,14 @@ games_table = Table(
 
 genres_table = Table(
     'genres', metadata,
-    Column('id', Integer, primary_key=True, autoincrement=True),
-    Column('genre_name', String(64), nullable=False),
+    Column('genre_name', String(64), primary_key=True),
 )
 
 game_genres_table = Table(
     'game_genres', metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('game_id', ForeignKey('games.game_id')),
-    Column('genre_name', ForeignKey('genres.id'))
+    Column('genre_name', ForeignKey('genres.genre_name'))
 )
 
 reviews_table = Table(

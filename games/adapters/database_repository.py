@@ -68,7 +68,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
 
     def add_game(self, game: Game):
         with self._session_cm as scm:
-            scm.session.add(game)
+            scm.session.merge(game)
             scm.commit()
 
     def get_publishers(self) -> List[Publisher]:
@@ -108,21 +108,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         reviews = self._session_cm.session.query(Review).filter(Review._Review__game == game).all()
         return reviews
 
-    def adding_a_new_review_for_game(self, username: User, review: Review):
-        # user = self.get_user(username)
-        # user.add_review(review)
-        with self._session_cm as scm:
-            scm.session.merge(review)
-            scm.commit()
-
-    # def get_reviews_by_user(self, username: str) -> List[Review]:
-    #     user = self.get_user(username)
-    #     if user is None:
-    #         return []
-    #     reviews = self._session_cm.session.query(Review).filter(Review._Review__user == user).all()
-    #     return reviews
-
-
     def add_users_favourite_game(self, username, game_id):
         user = self.get_user(username)
         game = self.get_game(game_id)
@@ -155,7 +140,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.commit()
 
     def search_games_by_genre(self, search_term):
-        games = self._session_cm.session.query(Game).join(game_genres_table).join(genres_table).filter(Genre._Genre__genre_name == search_term.title()).order_by(Game._Game__game_title).all()
+        games = self._session_cm.session.query(Game).join(game_genres_table).join(genres_table).filter(Genre._Genre__genre_name.ilike('%'+search_term+'%')).order_by(Game._Game__game_title).all()
         return games
 
     def search_games_by_publisher(self, search_term):

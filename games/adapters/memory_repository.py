@@ -136,8 +136,6 @@ def load_games(data_path: Path, repo: AbstractRepository):
         repo.add_game(game)
     for publisher in reader.dataset_of_publishers:
         repo.add_publisher(publisher)
-    for genre in reader.dataset_of_genres:
-        repo.add_genre(genre)
 
 
 def populate(data_path: Path, repo: AbstractRepository):
