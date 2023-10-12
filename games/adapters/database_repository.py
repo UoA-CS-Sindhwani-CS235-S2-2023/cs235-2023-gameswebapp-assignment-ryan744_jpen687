@@ -88,7 +88,7 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.session.add(genre)
             scm.commit()
 
-    def add_review(self, username: User, review: Review):
+    def add_review(self, review: Review):
         # user = self.get_user(username)
         # user.add_review(review)
         with self._session_cm as scm:
@@ -107,6 +107,13 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def get_reviews(self, game: Game) -> List[Review]:
         reviews = self._session_cm.session.query(Review).filter(Review._Review__game == game).all()
         return reviews
+
+    def adding_a_new_review_for_game(self, username: User, review: Review):
+        # user = self.get_user(username)
+        # user.add_review(review)
+        with self._session_cm as scm:
+            scm.session.merge(review)
+            scm.commit()
 
     # def get_reviews_by_user(self, username: str) -> List[Review]:
     #     user = self.get_user(username)
