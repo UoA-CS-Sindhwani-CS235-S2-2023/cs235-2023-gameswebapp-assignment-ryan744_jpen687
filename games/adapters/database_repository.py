@@ -72,7 +72,8 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
             scm.commit()
 
     def get_publishers(self) -> List[Publisher]:
-        pass
+        publishers = self._session_cm.session.query(Publisher).order_by(Publisher._Publisher__publisher_name).all()
+        return publishers
 
     def add_publisher(self, publisher: Publisher):
         with self._session_cm as scm:

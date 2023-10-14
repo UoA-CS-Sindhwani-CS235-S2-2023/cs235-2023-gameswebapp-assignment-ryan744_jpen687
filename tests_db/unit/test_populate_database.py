@@ -12,7 +12,7 @@ def test_database_populate_inspect_table_names(database_engine):
 def test_database_populate_select_all_games(database_engine):
     # Get table information
     inspector = inspect(database_engine)
-    name_of_games_table = inspector.get_table_names()[0]
+    name_of_games_table = inspector.get_table_names()[2]
 
     with database_engine.connect() as connection:
         # query for records in table articles

@@ -129,16 +129,19 @@ def load_users(data_path: Path, repo: AbstractRepository):
     return users
 
 
-def load_games(data_path: Path, repo: AbstractRepository):
+def load_games(data_path: Path, repo: AbstractRepository, database_mode):
     reader = GameFileCSVReader(Path(data_path) / 'games.csv')
     reader.read_csv_file()
     for game in reader.dataset_of_games:
         repo.add_game(game)
     for publisher in reader.dataset_of_publishers:
         repo.add_publisher(publisher)
+    # Database mode has relationship from Game to Genre to populate genres so this is not needed
+    if not database_mode:
+      for genre in reader.dataset_of_genres:
+          repo.add_genre(genre)
 
-
-def populate(data_path: Path, repo: AbstractRepository):
-    load_games(data_path, repo)
+def populate(data_path: Path, repo: AbstractRepository, database_mode=False):
+    load_games(data_path, repo, database_mode)
 
     load_users(data_path, repo)
