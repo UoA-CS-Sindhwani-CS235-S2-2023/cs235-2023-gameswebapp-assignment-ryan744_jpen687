@@ -64,9 +64,7 @@ def create_app(test_config=None):
             # Generate mappings that map domain model classes to the database tables.
             map_model_to_tables()
 
-            # database_mode = True
-            # repository_populate.populate(data_path, repo.repo_instance, database_mode)
-            populate(data_path, repo.repo_instance)
+            populate(data_path, repo.repo_instance, True)
             print("REPOPULATING DATABASE... FINISHED")
 
         else:
