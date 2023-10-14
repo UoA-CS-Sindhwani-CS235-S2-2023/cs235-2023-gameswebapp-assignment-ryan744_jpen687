@@ -52,10 +52,6 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
     def reset_session(self):
         self._session_cm.reset_session()
 
-    def get_games(self) -> List[Game]:
-        games = self._session_cm.session.query(Game).order_by(Game._Game__game_id).all()
-        return games
-
     def get_game(self, game_id: int) -> Game:
         game = None
         try:
@@ -145,9 +141,9 @@ class SqlAlchemyRepository(AbstractRepository, ABC):
         return games
 
     def search_games_by_publisher(self, search_term):
-        games = self._session_cm.session.query(Game).filter(Game.publisher_name.ilike('%'+search_term+'%')).order_by(Game._Game__game_title)
+        games = self._session_cm.session.query(Game).filter(Game.publisher_name.ilike('%'+search_term+'%')).order_by(Game._Game__game_title).all()
         return games
     
     def search_games_by_title(self, title_string: str) -> List[Game]:
-        games = self._session_cm.session.query(Game).filter(Game._Game__game_title.ilike('%'+title_string+'%')).order_by(Game._Game__game_title)
+        games = self._session_cm.session.query(Game).filter(Game._Game__game_title.ilike('%'+title_string+'%')).order_by(Game._Game__game_title).all()
         return games

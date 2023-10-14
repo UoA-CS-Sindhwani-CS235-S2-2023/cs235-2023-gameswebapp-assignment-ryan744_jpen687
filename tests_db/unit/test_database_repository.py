@@ -106,3 +106,55 @@ def test_repository_get_publishers(session_factory):
     retrieved_publishers = repo.get_publishers()
     assert publisher1 in retrieved_publishers
     assert publisher2 in retrieved_publishers
+
+def test_repository_add_game(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    game = Game(10, "Gamesss")
+    repo.add_game(game)
+    retrieved_game = repo.get_game(10)
+    assert retrieved_game == game
+
+def test_repository_search_games_by_genre(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_genre('Indie')
+    assert retrieved_games == [Game(435790, '10 Second Ninja X'), Game(1304320, '重装无限·Metal Infinite')]
+
+def test_repository_search_games_by_genre_case_insensitive(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_genre('iNdIe')
+    assert retrieved_games == [Game(435790, '10 Second Ninja X'), Game(1304320, '重装无限·Metal Infinite')]
+
+def test_repository_search_games_by_genre_none_found(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_genre('Fun')
+    assert retrieved_games == []
+
+def test_repository_search_games_by_title(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_title('Ninja')
+    assert retrieved_games == [Game(435790, '10 Second Ninja X')]
+
+def test_repository_search_games_by_title_case_insensitive(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_title('NiNjA')
+    assert retrieved_games == [Game(435790, '10 Second Ninja X')]
+
+def test_repository_search_games_by_title_none_found(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_title('Fun')
+    assert retrieved_games == []
+
+def test_repository_search_games_by_publisher(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_publisher('Activision')
+    assert retrieved_games == [Game(1, 'Call of Duty® 4: Modern Warfare®')]
+
+def test_repository_search_games_by_publisher_case_insensitive(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_publisher('aCtIvIsIoN')
+    assert retrieved_games == [Game(1, 'Call of Duty® 4: Modern Warfare®')]
+
+def test_repository_search_games_by_publisher_none_found(session_factory):
+    repo = SqlAlchemyRepository(session_factory)
+    retrieved_games = repo.search_games_by_publisher('Fun')
+    assert retrieved_games == []
